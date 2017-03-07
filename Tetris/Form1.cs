@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Tetris {
-    public partial class mainForm : Form {
+    public partial class MainForm : Form {
 
 
 
 
-        public mainForm() {
+        public MainForm() {
 
             InitializeComponent();
             //in partial class set inital disables

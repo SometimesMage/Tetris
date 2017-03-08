@@ -11,22 +11,25 @@ using System.Windows.Forms;
 namespace Tetris {
     public partial class MainForm : Form {
 
-
+        private Game game;
 
 
         public MainForm() {
 
             InitializeComponent();
-            //in partial class set inital disables
+            this.game = new Game();
             
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+
+        private void mainForm_Paint(object sender, PaintEventArgs e)
         {
+            Rectangle gameView = this.ClientRectangle;
+            gameView.Y = mstripTop.Height;
+            gameView.Height = gameView.Height - gameView.Y;
 
-
-
-            base.OnPaint(e);
+            game.view = gameView;
+            game.draw(e.Graphics);
         }
 
         private void mstripNew_Click(object sender, EventArgs e)
@@ -48,7 +51,7 @@ namespace Tetris {
 
         private void mstripExit_Click(object sender, EventArgs e)
         {
-            //this.close()
+            this.Close();
         }
 
         private void mstripGo_Click(object sender, EventArgs e)
@@ -80,5 +83,8 @@ namespace Tetris {
 
         }
 
+        private void mainForm_Resize(object sender, EventArgs e) {
+            this.Invalidate();
+        }
     }//form
 }//namespace tetris

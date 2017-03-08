@@ -82,5 +82,9 @@ namespace Tetris {
         {
 
         }
+
+        private void mainForm_Resize(object sender, EventArgs e) {
+            this.Invalidate();
+        }
     }//form
 }//namespace tetris

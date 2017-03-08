@@ -9,6 +9,11 @@ namespace Tetris {
     public class GameInfoView {
         private Rectangle _view;
 
+        public GameInfoView() {
+            _view = new Rectangle();
+        }
+
+
         public Rectangle view {
             get {
                 return _view;

@@ -46,7 +46,7 @@
             this.mstripTop.Location = new System.Drawing.Point(0, 0);
             this.mstripTop.Name = "mstripTop";
             this.mstripTop.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.mstripTop.Size = new System.Drawing.Size(697, 33);
+            this.mstripTop.Size = new System.Drawing.Size(697, 24);
             this.mstripTop.TabIndex = 1;
             this.mstripTop.Text = "menuStrip1";
             // 
@@ -58,14 +58,14 @@
             this.mstripOpen,
             this.mstripExit});
             this.mstripFile.Name = "mstripFile";
-            this.mstripFile.Size = new System.Drawing.Size(50, 29);
+            this.mstripFile.Size = new System.Drawing.Size(37, 20);
             this.mstripFile.Text = "&File";
             // 
             // mstripNew
             // 
             this.mstripNew.Name = "mstripNew";
             this.mstripNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.mstripNew.Size = new System.Drawing.Size(206, 30);
+            this.mstripNew.Size = new System.Drawing.Size(146, 22);
             this.mstripNew.Text = "&New";
             this.mstripNew.Click += new System.EventHandler(this.mstripNew_Click);
             // 
@@ -73,7 +73,7 @@
             // 
             this.mstripSave.Name = "mstripSave";
             this.mstripSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.mstripSave.Size = new System.Drawing.Size(206, 30);
+            this.mstripSave.Size = new System.Drawing.Size(146, 22);
             this.mstripSave.Text = "&Save";
             this.mstripSave.Click += new System.EventHandler(this.mstripSave_Click);
             // 
@@ -81,7 +81,7 @@
             // 
             this.mstripOpen.Name = "mstripOpen";
             this.mstripOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.mstripOpen.Size = new System.Drawing.Size(206, 30);
+            this.mstripOpen.Size = new System.Drawing.Size(146, 22);
             this.mstripOpen.Text = "&Open";
             this.mstripOpen.Click += new System.EventHandler(this.mstripLoad_Click);
             // 
@@ -89,7 +89,7 @@
             // 
             this.mstripExit.Name = "mstripExit";
             this.mstripExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.mstripExit.Size = new System.Drawing.Size(206, 30);
+            this.mstripExit.Size = new System.Drawing.Size(146, 22);
             this.mstripExit.Text = "E&xit";
             this.mstripExit.Click += new System.EventHandler(this.mstripExit_Click);
             // 
@@ -99,14 +99,14 @@
             this.mstripGo,
             this.mstripPause});
             this.mstripGame.Name = "mstripGame";
-            this.mstripGame.Size = new System.Drawing.Size(70, 29);
+            this.mstripGame.Size = new System.Drawing.Size(50, 20);
             this.mstripGame.Text = "Ga&me";
             // 
             // mstripGo
             // 
             this.mstripGo.Name = "mstripGo";
             this.mstripGo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.mstripGo.Size = new System.Drawing.Size(203, 30);
+            this.mstripGo.Size = new System.Drawing.Size(146, 22);
             this.mstripGo.Text = "&Go";
             this.mstripGo.Click += new System.EventHandler(this.mstripGo_Click);
             // 
@@ -114,7 +114,7 @@
             // 
             this.mstripPause.Name = "mstripPause";
             this.mstripPause.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.mstripPause.Size = new System.Drawing.Size(203, 30);
+            this.mstripPause.Size = new System.Drawing.Size(146, 22);
             this.mstripPause.Text = "&Pause";
             this.mstripPause.Click += new System.EventHandler(this.mstripPause_Click);
             // 
@@ -128,7 +128,7 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 11F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(697, 473);
@@ -142,6 +142,7 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.mainForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyUp);
+            this.Resize += new System.EventHandler(this.mainForm_Resize);
             this.mstripTop.ResumeLayout(false);
             this.mstripTop.PerformLayout();
             this.ResumeLayout(false);

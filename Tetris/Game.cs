@@ -16,9 +16,10 @@ namespace Tetris {
         public void draw(Graphics g) {
             g.FillRectangle(new SolidBrush(Constants.BACKGROUND_COLOR), _view);
 
+            Rectangle modifiedView = _view.addMargin(Constants.GAME_MIN_MARGIN_AREA);
+
             //TODO Calculate Margin Based on Aspect Ratio
-            int gamePlayWidth = Convert.ToInt32(_view.Width / Constants.GAME_PLAY_VIEW_AREA);
-            int gameInfoWidth = Convert.ToInt32(_view.Width / Constants.GAME_INFO_VIEW_AREA);
+            Tuple<Rectangle, Rectangle> splitView = modifiedView.splitAtWidth(Convert.ToInt32(modifiedView.Width * Constants.GAME_VIEW_SPLIT));
         }
 
         public Rectangle view {

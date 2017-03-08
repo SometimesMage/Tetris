@@ -47,6 +47,19 @@ namespace Tetris {
             return rect;
         }
 
+        public static Rectangle centerWithinBounds(this Rectangle rect, Rectangle bounds) {
+            int boundsCenterH = bounds.Height / 2;
+            int boundsCenterW = bounds.Width / 2;
+
+            int rectCenterH = rect.Height / 2;
+            int rectCenterW = rect.Width / 2;
+
+            rect.X = bounds.X + boundsCenterW - rectCenterW;
+            rect.Y = bounds.Y + boundsCenterH - rectCenterH;
+
+            return rect;
+        }
+
         public static Tuple<Rectangle, Rectangle> splitAtWidth(this Rectangle rect, int width) {
             Rectangle rect1 = new Rectangle(rect.X, rect.Y, width, rect.Height);
             Rectangle rect2 = new Rectangle(rect.X + width, rect.Y, rect.Width - width, rect.Height);

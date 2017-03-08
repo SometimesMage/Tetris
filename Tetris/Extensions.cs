@@ -37,6 +37,19 @@ namespace Tetris {
             return rect;
         }
 
+        public static Rectangle resizeByAspectRatio(this Rectangle rect, float widthRatio, float heightRatio)
+        {
+            float widthtemp = rect.Width / widthRatio;
+            float heighttemp = rect.Height / heightRatio;
+
+            float lowest = widthtemp < heighttemp ? widthtemp : heighttemp;
+
+            rect.Width = Convert.ToInt32(lowest * widthRatio);
+            rect.Height = Convert.ToInt32(lowest * heightRatio);
+
+            return rect;
+        }
+
         public static Rectangle resizeHeightToAspectRatio(this Rectangle rect, float ratio) {
             rect.Height = Convert.ToInt32(rect.Width / ratio);
             return rect;

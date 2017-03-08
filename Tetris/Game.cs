@@ -21,6 +21,10 @@ namespace Tetris {
             Tuple<Rectangle, Rectangle> splitView = modifiedView.splitAtWidth(Convert.ToInt32(modifiedView.Width * Constants.GAME_VIEW_SPLIT));
             //g.FillRectangle(new SolidBrush(Color.Red), splitView.Item1);
             //g.FillRectangle(new SolidBrush(Color.Beige), splitView.Item2);
+
+            GamePlayView gameView = new GamePlayView();
+            gameView.view = splitView.Item1;
+            gameView.draw(g);
         }
 
         public Rectangle view {

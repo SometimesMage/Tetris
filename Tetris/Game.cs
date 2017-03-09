@@ -29,8 +29,11 @@ namespace Tetris {
             infoRect.X += GAME_MIN_MARGIN_AREA / 2;
 
             //Test Code
-            g.FillRectangle(new SolidBrush(Color.Red), gameRect);
-            g.FillRectangle(new SolidBrush(Color.Beige), infoRect);
+            //g.FillRectangle(new SolidBrush(Color.Red), gameRect);
+            //g.FillRectangle(new SolidBrush(Color.Beige), infoRect);
+            GameInfoView infoView = new GameInfoView(infoRect);
+            infoView.draw(g);
+
         }
 
         public Rectangle view {

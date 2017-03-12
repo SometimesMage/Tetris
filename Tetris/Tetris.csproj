@@ -51,7 +51,9 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameInfoView.cs" />
     <Compile Include="GamePlayView.cs" />
-    <Compile Include="InfoComponents.cs" />
+    <Compile Include="InfoDetailComponent.cs" />
+    <Compile Include="InfoLabelComponent.cs" />
+    <Compile Include="TComponents.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

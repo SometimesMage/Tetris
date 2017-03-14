@@ -85,18 +85,18 @@ namespace Tetris {
             return Tuple.Create(rect1, rect2);
         }
 
-        public static Rectangle[] splitVertically(this Rectangle rect, float splitRatio)
+        public static Rectangle[] splitVertically(this Rectangle rect, int numRects)
         {
 
             //?Switch to splitVertically in X amount of parts?
 
-            int number = (int)(1 / splitRatio);
+            float splitRatio = 1f / numRects;
             int newHeight = (int)(rect.Height * splitRatio);
             int changingY = rect.Y;
 
-            Rectangle[] rects = new Rectangle[number];
+            Rectangle[] rects = new Rectangle[numRects];
 
-            for(int i = 0; i < number; i++)
+            for(int i = 0; i < numRects; i++)
             {
                 rects[i] = new Rectangle( rect.X, changingY, rect.Width, newHeight);
                 changingY += rects[i].Height;//make sure right math??

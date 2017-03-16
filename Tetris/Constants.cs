@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 namespace Tetris {
     public class Constants {
         //VIEWS
-        public static readonly float GAME_ASPECT_RATIO = 5f / 9f;
         public static readonly float GAME_VIEW_SPLIT = 2f / 3f;
+        public static readonly float GAME_ASPECT_WIDTH_RATIO = 5f;
+        public static readonly float GAME_ASPECT_HEIGHT_RATIO = 9f;
+        public static readonly float INFO_ASPECT_WIDTH_RATIO = ((1 - GAME_VIEW_SPLIT) / GAME_VIEW_SPLIT) * GAME_ASPECT_WIDTH_RATIO;
+        public static readonly float INFO_ASPECT_HEIGHT_RATIO = GAME_ASPECT_HEIGHT_RATIO;
         public static readonly int GAME_MIN_MARGIN_AREA = 5;
-        public static readonly float GAME_INFO_VIEW_SPLIT = 1f / 4f;
+        public static readonly int GAME_INFO_RECTS = 4;
         public static readonly int GAME_MIN_INFO_MARGIN = 5;
 
         //SPEEDS

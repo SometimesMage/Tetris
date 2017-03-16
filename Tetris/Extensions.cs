@@ -84,5 +84,33 @@ namespace Tetris {
             Rectangle rect2 = new Rectangle(rect.X, rect.Y + height, rect.Width, rect.Height - height);
             return Tuple.Create(rect1, rect2);
         }
+
+        public static Rectangle[] splitVertically(this Rectangle rect, int numRects)
+        {
+
+            //?Switch to splitVertically in X amount of parts?
+
+            float splitRatio = 1f / numRects;
+            int newHeight = (int)(rect.Height * splitRatio);
+            int changingY = rect.Y;
+
+            Rectangle[] rects = new Rectangle[numRects];
+
+            for(int i = 0; i < numRects; i++)
+            {
+                rects[i] = new Rectangle( rect.X, changingY, rect.Width, newHeight);
+                changingY += rects[i].Height;//make sure right math??
+            }
+
+
+            /*
+            Rectangle rect1 = new Rectangle(rect.X, rect.Y, rect.Width, (int)((rect.Height) * splitRatio));
+            Rectangle rect2 = new Rectangle(rect.X, rect1.Y + rect1.Height, rect.Width, (int)(rect.Height * splitRatio));
+            Rectangle rect3 = new Rectangle(rect.X, rect1.Y + rect1.Height + rect2.Height, rect.Width, (int)(rect.Height * splitRatio));
+            Rectangle rect4 = new Rectangle(rect.X, rect1.Y + rect1.Height + rect2.Height + rect3.Height, rect.Width, (int)(rect.Height * splitRatio));
+            */
+
+            return rects;
+        }
     }
 }

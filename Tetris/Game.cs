@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using static Tetris.Constants;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,14 +18,31 @@ namespace Tetris {
             g.FillRectangle(new SolidBrush(Constants.BACKGROUND_COLOR), _view);
 
             Rectangle modifiedView = _view.addMargin(Constants.GAME_MIN_MARGIN_AREA);   //gets the new game area with respect to margins
+            modifiedView = modifiedView.resizeByAspectRatio(GAME_ASPECT_WIDTH_RATIO + INFO_ASPECT_WIDTH_RATIO, GAME_ASPECT_HEIGHT_RATIO);
+            modifiedView = modifiedView.centerWithinBounds(_view);
 
             Tuple<Rectangle, Rectangle> splitView = modifiedView.splitAtWidth(Convert.ToInt32(modifiedView.Width * Constants.GAME_VIEW_SPLIT));
+<<<<<<< HEAD
             //g.FillRectangle(new SolidBrush(Color.Red), splitView.Item1);
             //g.FillRectangle(new SolidBrush(Color.Beige), splitView.Item2);
 
             GamePlayView gameView = new GamePlayView();
             gameView.view = splitView.Item1;
             gameView.draw(g);
+=======
+            Rectangle gameRect = splitView.Item1;
+            Rectangle infoRect = splitView.Item2;
+
+            gameRect.X -= GAME_MIN_MARGIN_AREA / 2;
+            infoRect.X += GAME_MIN_MARGIN_AREA / 2;
+
+            //Test Code
+            //g.FillRectangle(new SolidBrush(Color.Red), gameRect);
+            //g.FillRectangle(new SolidBrush(Color.Beige), infoRect);
+            GameInfoView infoView = new GameInfoView(infoRect);
+            infoView.draw(g);
+
+>>>>>>> master
         }
 
         public Rectangle view {

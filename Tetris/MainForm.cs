@@ -12,15 +12,23 @@ namespace Tetris {
     public partial class MainForm : Form {
 
         private Game game;
+        private Timer resizeTimer;
 
 
         public MainForm() {
 
             InitializeComponent();
             this.game = new Game();
+            this.resizeTimer = new Timer();
+            resizeTimer.Tick += resizeTimer_Tick;
             
         }
 
+        private void resizeTimer_Tick(object sender, EventArgs e)
+        {
+            Invalidate();
+            resizeTimer.Stop();
+        }
 
         private void mainForm_Paint(object sender, PaintEventArgs e)
         {
@@ -84,7 +92,10 @@ namespace Tetris {
         }
 
         private void mainForm_Resize(object sender, EventArgs e) {
-            this.Invalidate();
+            resizeTimer.Interval = 100; //Milliseconds
+            resizeTimer.Start();
         }
+
+
     }//form
 }//namespace tetris

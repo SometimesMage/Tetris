@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 namespace Tetris {
     public class Game {
         private Rectangle _view;
+        private GamePlayView _playView;
 
         public Game() {
             _view = new Rectangle();
+            _playView = new GamePlayView();
         }
 
         public void draw(Graphics g) {
@@ -22,27 +24,16 @@ namespace Tetris {
             modifiedView = modifiedView.centerWithinBounds(_view);
 
             Tuple<Rectangle, Rectangle> splitView = modifiedView.splitAtWidth(Convert.ToInt32(modifiedView.Width * Constants.GAME_VIEW_SPLIT));
-<<<<<<< HEAD
-            //g.FillRectangle(new SolidBrush(Color.Red), splitView.Item1);
-            //g.FillRectangle(new SolidBrush(Color.Beige), splitView.Item2);
-
-            GamePlayView gameView = new GamePlayView();
-            gameView.view = splitView.Item1;
-            gameView.draw(g);
-=======
             Rectangle gameRect = splitView.Item1;
             Rectangle infoRect = splitView.Item2;
 
             gameRect.X -= GAME_MIN_MARGIN_AREA / 2;
             infoRect.X += GAME_MIN_MARGIN_AREA / 2;
 
-            //Test Code
-            //g.FillRectangle(new SolidBrush(Color.Red), gameRect);
-            //g.FillRectangle(new SolidBrush(Color.Beige), infoRect);
             GameInfoView infoView = new GameInfoView(infoRect);
+            _playView.view = gameRect;
+            _playView.draw(g);
             infoView.draw(g);
-
->>>>>>> master
         }
 
         public Rectangle view {

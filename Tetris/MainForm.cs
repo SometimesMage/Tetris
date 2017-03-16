@@ -17,6 +17,7 @@ namespace Tetris {
         public MainForm() {
 
             InitializeComponent();
+            DoubleBuffered = true;
             this.game = new Game();
             
         }

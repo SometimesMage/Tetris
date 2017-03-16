@@ -30,5 +30,10 @@ namespace Tetris {
 
         //COLORS
         public static readonly Color BACKGROUND_COLOR = Color.FromArgb(255, 0, 0, 0);
+
+        //FONT
+        public static readonly int LARGEST_FONT_SIZE = 54;
+        public static readonly int SMALLEST_FONT_SIZE = 10;
+        public static readonly String DEFAULT_FONT_TYPE = "Arial";
     }
 }

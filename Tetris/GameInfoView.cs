@@ -41,16 +41,17 @@ namespace Tetris {
 
         public void draw(Graphics g) {
 
-            g.FillRectangle(new SolidBrush(Color.Beige), _view);
+            
+                g.FillRectangle(new SolidBrush(Color.Beige), _view);
 
-            Rectangle[] components = _view.splitVertically(Constants.GAME_INFO_RECTS);
+                Rectangle[] components = _view.splitVertically(Constants.GAME_INFO_RECTS);
 
-            setComponents(components);
+                setComponents(components);
 
-            _nextBlock.draw(g);
-            _score.draw(g);
-            _lines.draw(g);
-            _level.draw(g);
+                _nextBlock.draw(g);
+                _score.draw(g);
+                _lines.draw(g);
+                _level.draw(g);
 
         }
 

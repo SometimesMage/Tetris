@@ -7,24 +7,28 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    class GameBlock
+    public class GameBlock
     {
         private Rectangle _bounds;
+        private Point _location;
 
-        public GameBlock(Rectangle bounds = new Rectangle())
+        public GameBlock(Rectangle bounds = new Rectangle(), Point location = new Point())
         {
             _bounds = bounds;
+            _location = location;
         }
 
         public Rectangle bounds 
         {
-            get {
-                return _bounds;
-            }
+            get { return _bounds; }
 
-            set {
-                _bounds = value;
-            }
+            set { _bounds = value; }
+        }
+
+        public Point location
+        {
+            get { return _location; }
+            set { _location = value; }
         }
 
         public void draw(Graphics g)

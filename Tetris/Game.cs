@@ -5,17 +5,32 @@ using static Tetris.Constants;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Tetris {
     public class Game {
+        private MainForm _mainForm;
         private Rectangle _view;
         private GamePlayView _playView;
         private GameInfoView _infoView;
+        private Timer _gameTimer; 
 
-        public Game() {
+        public Game(MainForm mainForm) {
+            _mainForm = mainForm;
             _view = new Rectangle();
             _playView = new GamePlayView();
             _infoView = new GameInfoView();
+
+            _gameTimer = new Timer();
+            _gameTimer.Interval = Convert.ToInt32(Constants.GAME_INITAIL_SPEED * 1000);
+            _gameTimer.Tick += gameTick;
+            _gameTimer.Start();
+        }
+
+        public void gameTick(object sender, EventArgs args) 
+        {
+            _playView.gameTick();
+            _mainForm.Invalidate();
         }
 
         public void draw(Graphics g) {
@@ -41,7 +56,12 @@ namespace Tetris {
 
         public void pauseGame()
         {
-            //TODO pause related operations
+            _gameTimer.Stop();
+        }
+
+        public void resumeGame()
+        {
+            _gameTimer.Start();
         }
 
         public Rectangle view {
@@ -52,6 +72,6 @@ namespace Tetris {
             set {
                 _view = value;
             }
-        }
-    }
-}
+        }//view property
+    }//game class
+}//tetris namespace

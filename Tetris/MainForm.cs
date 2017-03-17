@@ -25,10 +25,10 @@ namespace Tetris {
 
             InitializeComponent();
             DoubleBuffered = true;
-            this.game = new Game();
+            this.game = new Game(this);
           
             pauser = game.pauseGame;
-            pauser += drawPause;
+            resumer = game.resumeGame;
           
             this.resizeTimer = new Timer();
             resizeTimer.Tick += resizeTimer_Tick;
@@ -51,17 +51,13 @@ namespace Tetris {
 
             if (!this.mstripPause.Enabled)
             {
-                drawPause();
+                drawPause(e.Graphics);
             }
         }
 
-        private void drawPause()
+        private void drawPause(Graphics g)
         {
-            using (Graphics g = CreateGraphics())
-            {
-                g.FillRectangle(new SolidBrush(Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
-            }
-            //TODO doesnt stay when trying to resize
+            g.FillRectangle(new SolidBrush(Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
         }
 
         private void mstripNew_Click(object sender, EventArgs e)
@@ -92,6 +88,7 @@ namespace Tetris {
             //disable pause
             //??disable 'game' mstrip??
             this.mstripPause.Enabled = true;
+            resumer();
             Invalidate();
         }
 
@@ -102,6 +99,7 @@ namespace Tetris {
             //??enable 'game' mstrip??
             this.mstripPause.Enabled = false;
             pauser();
+            Invalidate();
         }
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -120,8 +118,10 @@ namespace Tetris {
         }
 
         private void mainForm_Resize(object sender, EventArgs e) {
+            /*
             resizeTimer.Interval = 100; //Milliseconds
-            resizeTimer.Start();
+            resizeTimer.Start();*/
+            Invalidate();
         }
 
 

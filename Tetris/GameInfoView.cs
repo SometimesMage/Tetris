@@ -18,8 +18,8 @@ namespace Tetris {
         //IDEA: a list of TComponents, escpecially useful for drawing to iterate through and draw each
 
 
-        public GameInfoView(Rectangle rect) {
-            _view = rect;
+        public GameInfoView(Rectangle view = new Rectangle()) {
+            _view = view;
             
             _nextBlock = new TNextBlockComponent();
             _score = new TNumberComponent("Score");

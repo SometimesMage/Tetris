@@ -31,10 +31,15 @@ namespace Tetris
             set { _location = value; }
         }
 
-        public void draw(Graphics g)
+        public void draw(Graphics g, bool isGhost)
         {
             //Test Code
-            g.FillRectangle(Brushes.Black, _bounds);
+            Color color = Color.FromArgb(isGhost ? 100 : 255, Color.Black);
+            SolidBrush brush = new SolidBrush(color);
+
+            g.FillRectangle(brush, _bounds);
+
+            brush.Dispose();
         }
     }
 }

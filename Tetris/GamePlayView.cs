@@ -73,7 +73,7 @@ namespace Tetris
                 bounds.X = block.location.X * blockWidth + centerX;
                 bounds.Y = block.location.Y * blockHeight + centerY;
                 block.bounds = bounds;
-                block.draw(g);
+                block.draw(g, false);
             });
 
             //Draw Game Piece
@@ -88,8 +88,26 @@ namespace Tetris
                 bounds.X = block.location.X * blockWidth + centerX;
                 bounds.Y = block.location.Y * blockHeight + centerY;
                 block.bounds = bounds;
-                block.draw(g);
+                block.draw(g, false);
             });
+
+            //Draw Ghost Game Piece
+            GamePiece ghost = _gamePiece.createGhostPiece(_blocks);
+            ghost.getBlocks().ForEach(block =>
+            {
+                if (block.location.Y < 0)
+                    return;
+
+                var bounds = block.bounds;
+                bounds.Width = blockWidth;
+                bounds.Height = blockHeight;
+                bounds.X = block.location.X * blockWidth + centerX;
+                bounds.Y = block.location.Y * blockHeight + centerY;
+                block.bounds = bounds;
+                block.draw(g, true);
+            });
+
+
         }//draw method
 
         public void movePieceRight()

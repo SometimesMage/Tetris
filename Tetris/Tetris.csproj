@@ -49,7 +49,10 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameBlock.cs" />
     <Compile Include="GameInfoView.cs" />
+    <Compile Include="GamePiece.cs" />
+    <Compile Include="GamePieceFactory.cs" />
     <Compile Include="GamePlayView.cs" />
     <Compile Include="TComponents.cs" />
     <Compile Include="MainForm.cs">

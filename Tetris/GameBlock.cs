@@ -5,51 +5,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tetris {
-    public class GameBlock {
-        private Rectangle _boundingBox;
-        private Color _color;
-        private Color _outlineColor;
+namespace Tetris
+{
+    class GameBlock
+    {
+        private Rectangle _bounds;
 
-        public GameBlock() {
-            _boundingBox = new Rectangle();
-            _color = Color.Black;
+        public GameBlock(Rectangle bounds = new Rectangle())
+        {
+            _bounds = bounds;
         }
 
-        public Rectangle boundingBox {
+        public Rectangle bounds 
+        {
             get {
-                return _boundingBox;
+                return _bounds;
             }
 
             set {
-                _boundingBox = value;
+                _bounds = value;
             }
         }
 
-        public Color color {
-            get {
-                return _color;
-            }
-
-            set {
-                _color = value;
-            }
+        public void draw(Graphics g)
+        {
+            //Test Code
+            g.FillRectangle(Brushes.Black, _bounds);
         }
-
-        public Color outlineColor {
-            get {
-                return _outlineColor;
-            }
-
-            set {
-                _outlineColor = value;
-            }
-        }
-
-        public void draw(Graphics g) {
-            g.DrawRectangle(new Pen(_outlineColor, 1), _boundingBox);
-            g.FillRectangle(new SolidBrush(_color), _boundingBox);
-        }
-
     }
 }

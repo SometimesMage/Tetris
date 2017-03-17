@@ -30,5 +30,10 @@ namespace Tetris {
 
         //COLORS
         public static readonly Color BACKGROUND_COLOR = Color.FromArgb(255, 0, 0, 0);
+        public static readonly Color GAME_BACKGROUND_COLOR = Color.AliceBlue;
+
+        //GAME GRID
+        public static readonly int GRID_WIDITH = 10;
+        public static readonly int GRID_HEIGHT = 18;
     }
 }

@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 namespace Tetris {
     public class Game {
         private Rectangle _view;
+        private GamePlayView _playView;
 
         public Game() {
             _view = new Rectangle();
+            _playView = new GamePlayView();
         }
 
         public void draw(Graphics g) {
@@ -28,12 +30,10 @@ namespace Tetris {
             gameRect.X -= GAME_MIN_MARGIN_AREA / 2;
             infoRect.X += GAME_MIN_MARGIN_AREA / 2;
 
-            //Test Code
-            //g.FillRectangle(new SolidBrush(Color.Red), gameRect);
-            //g.FillRectangle(new SolidBrush(Color.Beige), infoRect);
             GameInfoView infoView = new GameInfoView(infoRect);
+            _playView.view = gameRect;
+            _playView.draw(g);
             infoView.draw(g);
-
         }
 
         public Rectangle view {

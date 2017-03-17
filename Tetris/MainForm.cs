@@ -18,7 +18,6 @@ namespace Tetris {
         private Game game;
         private Timer resizeTimer;
 
-        private Game game;
         private PauseDelegate pauser;
         private ResumeDelegate resumer;
 

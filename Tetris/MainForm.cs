@@ -15,10 +15,9 @@ namespace Tetris {
         private delegate void PauseDelegate();
         private delegate void ResumeDelegate();
       
-        private Game game;
-        private Timer resizeTimer;
 
         private Game game;
+        private Timer resizeTimer;
         private PauseDelegate pauser;
         private ResumeDelegate resumer;
 
@@ -62,7 +61,7 @@ namespace Tetris {
             {
                 g.FillRectangle(new SolidBrush(Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
             }
-            //TODO doesnt stay when trying to resize
+            
         }
 
         private void mstripNew_Click(object sender, EventArgs e)

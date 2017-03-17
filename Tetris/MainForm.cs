@@ -14,6 +14,9 @@ namespace Tetris {
 
         private delegate void PauseDelegate();
         private delegate void ResumeDelegate();
+      
+        private Game game;
+        private Timer resizeTimer;
 
         private Game game;
         private PauseDelegate pauser;
@@ -24,11 +27,19 @@ namespace Tetris {
             InitializeComponent();
             DoubleBuffered = true;
             this.game = new Game();
+          
             pauser = game.pauseGame;
             pauser += drawPause;
-            
+          
+            this.resizeTimer = new Timer();
+            resizeTimer.Tick += resizeTimer_Tick;
         }
 
+        private void resizeTimer_Tick(object sender, EventArgs e)
+        {
+            Invalidate();
+            resizeTimer.Stop();
+        }
 
         private void mainForm_Paint(object sender, PaintEventArgs e)
         {
@@ -110,7 +121,10 @@ namespace Tetris {
         }
 
         private void mainForm_Resize(object sender, EventArgs e) {
-            this.Invalidate();
+            resizeTimer.Interval = 100; //Milliseconds
+            resizeTimer.Start();
         }
+
+
     }//form
 }//namespace tetris

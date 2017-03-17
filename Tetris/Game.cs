@@ -17,6 +17,7 @@ namespace Tetris {
         }
 
         public void draw(Graphics g) {
+           
             g.FillRectangle(new SolidBrush(Constants.BACKGROUND_COLOR), _view);
 
             Rectangle modifiedView = _view.addMargin(Constants.GAME_MIN_MARGIN_AREA);   //gets the new game area with respect to margins
@@ -29,11 +30,16 @@ namespace Tetris {
 
             gameRect.X -= GAME_MIN_MARGIN_AREA / 2;
             infoRect.X += GAME_MIN_MARGIN_AREA / 2;
-
+            
             GameInfoView infoView = new GameInfoView(infoRect);
             _playView.view = gameRect;
             _playView.draw(g);
             infoView.draw(g);
+        }
+
+        public void pauseGame()
+        {
+            //TODO pause related operations
         }
 
         public Rectangle view {

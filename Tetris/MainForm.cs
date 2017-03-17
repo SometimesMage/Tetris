@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,17 +12,27 @@ using System.Windows.Forms;
 namespace Tetris {
     public partial class MainForm : Form {
 
+        private delegate void PauseDelegate();
+        private delegate void ResumeDelegate();
+      
         private Game game;
         private Timer resizeTimer;
 
+        private Game game;
+        private PauseDelegate pauser;
+        private ResumeDelegate resumer;
 
         public MainForm() {
 
             InitializeComponent();
+            DoubleBuffered = true;
             this.game = new Game();
+          
+            pauser = game.pauseGame;
+            pauser += drawPause;
+          
             this.resizeTimer = new Timer();
             resizeTimer.Tick += resizeTimer_Tick;
-            
         }
 
         private void resizeTimer_Tick(object sender, EventArgs e)
@@ -38,6 +49,20 @@ namespace Tetris {
 
             game.view = gameView;
             game.draw(e.Graphics);
+
+            if (!this.mstripPause.Enabled)
+            {
+                drawPause();
+            }
+        }
+
+        private void drawPause()
+        {
+            using (Graphics g = CreateGraphics())
+            {
+                g.FillRectangle(new SolidBrush(Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
+            }
+            //TODO doesnt stay when trying to resize
         }
 
         private void mstripNew_Click(object sender, EventArgs e)
@@ -67,6 +92,8 @@ namespace Tetris {
             //resume timer
             //disable pause
             //??disable 'game' mstrip??
+            this.mstripPause.Enabled = true;
+            Invalidate();
         }
 
         private void mstripPause_Click(object sender, EventArgs e)
@@ -74,6 +101,8 @@ namespace Tetris {
             //pause the timer
             //disable go
             //??enable 'game' mstrip??
+            this.mstripPause.Enabled = false;
+            pauser();
         }
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)

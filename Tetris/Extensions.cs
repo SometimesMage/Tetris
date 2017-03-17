@@ -88,8 +88,6 @@ namespace Tetris {
         public static Rectangle[] splitVertically(this Rectangle rect, int numRects)
         {
 
-            //?Switch to splitVertically in X amount of parts?
-
             float splitRatio = 1f / numRects;
             int newHeight = (int)(rect.Height * splitRatio);
             int changingY = rect.Y;

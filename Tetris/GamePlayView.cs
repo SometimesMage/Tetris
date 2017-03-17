@@ -12,9 +12,9 @@ namespace Tetris
 
         private Rectangle _view;
 
-        public GamePlayView()
+        public GamePlayView(Rectangle view = new Rectangle())
         {
-            _view = new Rectangle();
+            _view = view;
         }
 
         public Rectangle view

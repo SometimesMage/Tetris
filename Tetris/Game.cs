@@ -10,10 +10,12 @@ namespace Tetris {
     public class Game {
         private Rectangle _view;
         private GamePlayView _playView;
+        private GameInfoView _infoView;
 
         public Game() {
             _view = new Rectangle();
             _playView = new GamePlayView();
+            _infoView = new GameInfoView();
         }
 
         public void draw(Graphics g) {
@@ -31,10 +33,10 @@ namespace Tetris {
             gameRect.X -= GAME_MIN_MARGIN_AREA / 2;
             infoRect.X += GAME_MIN_MARGIN_AREA / 2;
             
-            GameInfoView infoView = new GameInfoView(infoRect);
             _playView.view = gameRect;
+            _infoView.view = infoRect;
             _playView.draw(g);
-            infoView.draw(g);
+            _infoView.draw(g);
         }
 
         public void pauseGame()

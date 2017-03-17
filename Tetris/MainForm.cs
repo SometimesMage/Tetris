@@ -13,9 +13,11 @@ namespace Tetris {
     public partial class MainForm : Form {
 
         private delegate void PauseDelegate();
+        private delegate void ResumeDelegate();
 
         private Game game;
         private PauseDelegate pauser;
+        private ResumeDelegate resumer;
 
         public MainForm() {
 

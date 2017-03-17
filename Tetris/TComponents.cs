@@ -31,8 +31,6 @@ namespace Tetris
             }
         }
 
-        //temporary...move to different class
-        //gets largest font size to draw the specified string in the _box (field of this class)
         protected Tuple<Font, SizeF> adjustedFont(Font startFont, String toDraw, Graphics g)
         {
 
@@ -40,19 +38,17 @@ namespace Tetris
             SizeF potentialSize = new SizeF();
             
                 int i;
-                for (i = Convert.ToInt32(startFont.Size); i >= 4; i--)
+                for (i = Convert.ToInt32(startFont.Size); i >= Constants.SMALLEST_FONT_SIZE; i--)
                 {
                     potentialSize = g.MeasureString(toDraw, toReturn = new Font(Constants.DEFAULT_FONT_TYPE, i));
                     if (potentialSize.Width <= _box.Width)
                     {
-                        //return toReturn;
                         break;
                     }
                 }
 
 
             return Tuple.Create(toReturn, potentialSize);
-            //return toReturn;
         }
 
         public abstract void draw(Graphics g);

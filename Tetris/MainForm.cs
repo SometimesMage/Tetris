@@ -4,7 +4,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
+using System.Media;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,30 +17,40 @@ namespace Tetris {
 
         private delegate void PauseDelegate();
         private delegate void ResumeDelegate();
-      
-        private Game game;
-        private Timer resizeTimer;
 
-        private PauseDelegate pauser;
-        private ResumeDelegate resumer;
+        private Assembly _assembly;
+        private Stream _musicStream;
+
+        private Game _game;
+        private Timer _resizeTimer;
+
+        private PauseDelegate _pauser;
+        private ResumeDelegate _resumer;
+        private SoundPlayer _musicPlayer;
 
         public MainForm() {
 
             InitializeComponent();
             DoubleBuffered = true;
-            this.game = new Game(this);
+            this._game = new Game(this);
           
-            pauser = game.pauseGame;
-            resumer = game.resumeGame;
+            _pauser = _game.pauseGame;
+            _resumer = _game.resumeGame;
           
-            this.resizeTimer = new Timer();
-            resizeTimer.Tick += resizeTimer_Tick;
+            this._resizeTimer = new Timer();
+            _resizeTimer.Tick += resizeTimer_Tick;
+
+            _assembly = Assembly.GetExecutingAssembly();
+            _musicStream = _assembly.GetManifestResourceStream("Tetris.Sounds.Tetris.wav");
+
+            _musicPlayer = new SoundPlayer(_musicStream);
+            _musicPlayer.PlayLooping();
         }
 
         private void resizeTimer_Tick(object sender, EventArgs e)
         {
             Invalidate();
-            resizeTimer.Stop();
+            _resizeTimer.Stop();
         }
 
         private void mainForm_Paint(object sender, PaintEventArgs e)
@@ -46,8 +59,8 @@ namespace Tetris {
             gameView.Y = mstripTop.Height;
             gameView.Height = gameView.Height - gameView.Y;
 
-            game.view = gameView;
-            game.draw(e.Graphics);
+            _game.view = gameView;
+            _game.draw(e.Graphics);
 
             if (!this.mstripPause.Enabled)
             {
@@ -88,7 +101,7 @@ namespace Tetris {
             //disable pause
             //??disable 'game' mstrip??
             this.mstripPause.Enabled = true;
-            resumer();
+            _resumer();
             Invalidate();
         }
 
@@ -98,7 +111,7 @@ namespace Tetris {
             //disable go
             //??enable 'game' mstrip??
             this.mstripPause.Enabled = false;
-            pauser();
+            _pauser();
             Invalidate();
         }
 
@@ -112,19 +125,19 @@ namespace Tetris {
             switch(e.KeyCode)
             {
                 case Keys.Right:
-                    game.movePieceRight();
+                    _game.movePieceRight();
                     break;
                 case Keys.Left:
-                    game.movePieceLeft();
+                    _game.movePieceLeft();
                     break;
                 case Keys.Down:
-                    game.movePieceDown();
+                    _game.movePieceDown();
                     break;
                 case Keys.Up:
-                    game.rotatePiece();
+                    _game.rotatePiece();
                     break;
                 case Keys.Space:
-                    game.slamPiece();
+                    _game.slamPiece();
                     break;
             }
         }

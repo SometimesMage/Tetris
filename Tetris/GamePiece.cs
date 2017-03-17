@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,16 @@ namespace Tetris
 
         public bool canMoveDown(List<GameBlock> grid)
         {
-            return false;
+            foreach(GameBlock block in _blocks)
+            {
+                var underBlock = block.location;
+                underBlock.Y++;
+                bool isFree = !grid.Any(gridBlock => gridBlock.location.Equals(underBlock)) && underBlock.Y < Constants.GRID_HEIGHT;
+                if (!isFree)
+                    return false;
+            }
+
+            return true;
         }
 
         public void moveDown()
@@ -47,32 +57,100 @@ namespace Tetris
             });
         }
 
+        public bool canMoveLeft(List<GameBlock> grid)
+        {
+            foreach (GameBlock block in _blocks)
+            {
+                var leftblock = block.location;
+                leftblock.X--;
+                bool isFree = !grid.Any(gridBlock => gridBlock.location.Equals(leftblock)) && leftblock.X >= 0;
+                if (!isFree)
+                    return false;
+            }
+
+            return true;
+        }
+
         public void moveLeft()
         {
-            bool canMove = !_blocks.Any(block => block.location.X == 0);
-            if(canMove)
+            _blocks.ForEach(block =>
             {
-                _blocks.ForEach(block =>
-                {
-                    var loc = block.location;
-                    loc.X--;
-                    block.location = loc;
-                });
+                var loc = block.location;
+                loc.X--;
+                block.location = loc;
+            });
+        }
+
+        public bool canMoveRight(List<GameBlock> grid)
+        {
+            foreach (GameBlock block in _blocks)
+            {
+                var rightBlock = block.location;
+                rightBlock.X++;
+                bool isFree = !grid.Any(gridBlock => gridBlock.location.Equals(rightBlock)) && rightBlock.X < Constants.GRID_WIDITH;
+                if (!isFree)
+                    return false;
             }
+
+            return true;
         }
 
         public void moveRight()
         {
-            bool canMove = !_blocks.Any(block => block.location.X == Constants.GRID_WIDITH - 1);
-            if (canMove)
+            _blocks.ForEach(block =>
             {
-                _blocks.ForEach(block =>
-                {
-                    var loc = block.location;
-                    loc.X++;
-                    block.location = loc;
-                });
+                var loc = block.location;
+                loc.X++;
+                block.location = loc;
+            });
+        }
+
+        public bool canRotate(List<GameBlock> grid)
+        {
+            if (_pivot == null)
+                return false;
+
+            foreach(GameBlock block in _blocks)
+            {
+                Point blockLoc = rotateBlockAroundPivot(block);
+
+                bool isFree = !grid.Any(gridBlock => gridBlock.location.Equals(blockLoc)) 
+                    && blockLoc.X >= 0 && blockLoc.X < Constants.GRID_WIDITH
+                    && blockLoc.Y < Constants.GRID_HEIGHT;
+
+                if (!isFree)
+                    return false;
             }
+
+            return true;
+        }
+
+        public void rotate()
+        {
+            if (_pivot == null)
+                return;
+
+            foreach(GameBlock block in _blocks)
+            {
+                if (block.Equals(_pivot))
+                    continue;
+
+                block.location = rotateBlockAroundPivot(block);
+            }
+        }
+
+        private Point rotateBlockAroundPivot(GameBlock block)
+        {
+            var pivotLoc = _pivot.location;
+            var blockLoc = block.location;
+
+            var x = blockLoc.X - pivotLoc.X;
+            var y = blockLoc.Y - pivotLoc.Y;
+
+            blockLoc.X = -y + pivotLoc.X;
+            blockLoc.Y = x + pivotLoc.Y;
+
+            return blockLoc;
         }
 
     }//gamepiece class

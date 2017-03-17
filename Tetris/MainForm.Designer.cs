@@ -142,7 +142,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.mainForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyUp);
             this.Resize += new System.EventHandler(this.mainForm_Resize);
             this.mstripTop.ResumeLayout(false);
             this.mstripTop.PerformLayout();

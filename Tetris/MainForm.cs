@@ -109,12 +109,37 @@ namespace Tetris {
 
         private void mainForm_KeyDown(object sender, KeyEventArgs e)
         {
-
+            switch(e.KeyCode)
+            {
+                case Keys.Right:
+                    game.movePieceRight();
+                    break;
+                case Keys.Left:
+                    game.movePieceLeft();
+                    break;
+                case Keys.Down:
+                    game.movePieceDown();
+                    break;
+                case Keys.Up:
+                    game.rotatePiece();
+                    break;
+                case Keys.Space:
+                    game.slamPiece();
+                    break;
+            }
         }
 
-        private void mainForm_KeyUp(object sender, KeyEventArgs e)
+        protected override bool IsInputKey(Keys keyData)
         {
-
+            switch (keyData)
+            {
+                case Keys.Right:
+                case Keys.Left:
+                case Keys.Up:
+                case Keys.Down:
+                    return true;
+            }
+            return base.IsInputKey(keyData);
         }
 
         private void mainForm_Resize(object sender, EventArgs e) {
@@ -123,7 +148,5 @@ namespace Tetris {
             resizeTimer.Start();*/
             Invalidate();
         }
-
-
     }//form
 }//namespace tetris

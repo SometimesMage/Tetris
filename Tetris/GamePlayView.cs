@@ -30,9 +30,16 @@ namespace Tetris
 
         public void gameTick()
         {
-            //TODO check if game piece can move down
+            if (_gamePiece.canMoveDown(_blocks))
+            {
+                _gamePiece.moveDown();
+            }
+            else
+            {
+                _blocks.AddRange(_gamePiece.getBlocks());
+                _gamePiece = GamePieceFactory.Instance.createGamePiece(GamePieces.L_RIGHT);
+            }
             //TODO check if a line is complete
-            _gamePiece.moveDown();
         }
 
         public void draw(Graphics g)
@@ -84,6 +91,43 @@ namespace Tetris
                 block.draw(g);
             });
         }//draw method
+
+        public void movePieceRight()
+        {
+            if(_gamePiece.canMoveRight(_blocks))
+            {
+                _gamePiece.moveRight();
+            }
+        }
+
+        public void movePieceLeft()
+        {
+            if(_gamePiece.canMoveLeft(_blocks))
+            {
+                _gamePiece.moveLeft();
+            }
+        }
+
+        public void movePieceDown()
+        {
+            gameTick();
+        }
+
+        public void slamPiece()
+        {
+            while (_gamePiece.canMoveDown(_blocks))
+            {
+                _gamePiece.moveDown();
+            }
+
+            gameTick();
+        }
+
+        public void rotatePiece()
+        {
+            if (_gamePiece.canRotate(_blocks))
+                _gamePiece.rotate();
+        }
 
     }//gameplayview class
 }//tetris namespace

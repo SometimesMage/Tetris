@@ -19,10 +19,10 @@ namespace Tetris
             switch(piece)
             {
                 case GamePieces.L_RIGHT:
-                    GameBlock b1 = new GameBlock(location: new Point(centerBlock, -1));
-                    GameBlock b2 = new GameBlock(location: new Point(centerBlock, 0));
-                    GameBlock b3 = new GameBlock(location: new Point(centerBlock, 1));
-                    GameBlock b4 = new GameBlock(location: new Point(centerBlock + 1, 1));
+                    GameBlock b1 = new GameBlock(location: new Point(centerBlock, -3));
+                    GameBlock b2 = new GameBlock(location: new Point(centerBlock, -2));
+                    GameBlock b3 = new GameBlock(location: new Point(centerBlock, -1));
+                    GameBlock b4 = new GameBlock(location: new Point(centerBlock + 1, -1));
 
                     return new GamePiece(new GameBlock[]{b1, b2, b3, b4}, b2);
             }

@@ -32,11 +32,11 @@
             this.mstripGame = new System.Windows.Forms.ToolStripMenuItem();
             this.mstripGo = new System.Windows.Forms.ToolStripMenuItem();
             this.mstripPause = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mstripTop.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,7 +111,7 @@
             this.mstripGo.Enabled = false;
             this.mstripGo.Name = "mstripGo";
             this.mstripGo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.mstripGo.Size = new System.Drawing.Size(152, 22);
+            this.mstripGo.Size = new System.Drawing.Size(146, 22);
             this.mstripGo.Text = "&Go";
             this.mstripGo.Click += new System.EventHandler(this.mstripGo_Click);
             // 
@@ -119,17 +119,9 @@
             // 
             this.mstripPause.Name = "mstripPause";
             this.mstripPause.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.mstripPause.Size = new System.Drawing.Size(152, 22);
+            this.mstripPause.Size = new System.Drawing.Size(146, 22);
             this.mstripPause.Text = "&Pause";
             this.mstripPause.Click += new System.EventHandler(this.mstripPause_Click);
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.Title = "Save Tetris Game";
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.Title = "Load Tetris Game";
             // 
             // helpToolStripMenuItem
             // 
@@ -144,7 +136,7 @@
             // 
             this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
             this.controlsToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.controlsToolStripMenuItem.Text = "&Controls";
             this.controlsToolStripMenuItem.Click += new System.EventHandler(this.controlsToolStripMenuItem_Click);
             // 
@@ -152,9 +144,17 @@
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Title = "Save Tetris Game";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Title = "Load Tetris Game";
             // 
             // MainForm
             // 
@@ -170,6 +170,7 @@
             this.Name = "MainForm";
             this.Text = "Tetris";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.mainForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyDown);
             this.Resize += new System.EventHandler(this.mainForm_Resize);

@@ -13,10 +13,12 @@ namespace Tetris
         private Rectangle _view;
         private List<GameBlock> _blocks;
         private GamePiece _gamePiece;
+        private MainForm _mainForm;
 
-        public GamePlayView(Rectangle view = new Rectangle())
+        public GamePlayView(MainForm mainForm, Rectangle view = new Rectangle())
         {
             _view = view;
+            _mainForm = mainForm;
             _blocks = new List<GameBlock>(Constants.GRID_WIDITH * Constants.GRID_HEIGHT);
             _gamePiece = GamePieceFactory.Instance.createGamePiece(GamePieces.L_RIGHT);
         }
@@ -28,7 +30,7 @@ namespace Tetris
             set { _view = value; }
         }
 
-        public void gameTick()
+        public void gameTick(bool slam = false)
         {
             if (_gamePiece.canMoveDown(_blocks))
             {
@@ -36,6 +38,8 @@ namespace Tetris
             }
             else
             {
+                if(!slam)
+                    _mainForm.PlayBlockSound();
                 _blocks.AddRange(_gamePiece.getBlocks());
                 _gamePiece = GamePieceFactory.Instance.createGamePiece(GamePieces.L_RIGHT);
             }
@@ -138,7 +142,8 @@ namespace Tetris
                 _gamePiece.moveDown();
             }
 
-            gameTick();
+            _mainForm.PlaySlamSound();
+            gameTick(true);
         }
 
         public bool rotatePiece()

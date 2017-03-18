@@ -11,18 +11,21 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace Tetris {
     public partial class MainForm : Form {
 
         private delegate void PauseDelegate();
         private delegate void ResumeDelegate();
+        private delegate void SoundCallbackDelegate();
 
-        private Assembly _assembly;
-        private Stream _musicStream;
-
-        internal SoundPlayer _musicPlayer;
-
+        private MediaPlayer _musicPlayer;
+        private MediaPlayer _pausePlayer;
+        private MediaPlayer _unpausePlayer;
+        private MediaPlayer _rotatePlayer;
+        private MediaPlayer _blockPlayer;
+        private MediaPlayer _slamPlayer;
 
         private Game _game;
         private Timer _resizeTimer;
@@ -42,16 +45,70 @@ namespace Tetris {
             this._resizeTimer = new Timer();
             _resizeTimer.Tick += resizeTimer_Tick;
 
-            _assembly = Assembly.GetExecutingAssembly();
-            _musicStream = _assembly.GetManifestResourceStream("Tetris.Sounds.Tetris.wav");
-            _musicPlayer = new SoundPlayer(_musicStream);
-            _musicPlayer.PlayLooping();
+            /*_assembly = Assembly.GetExecutingAssembly();
+            _musicStream = _assembly.GetManifestResourceStream("Tetris.Sounds.Tetris.wav");*/
+
+            _musicPlayer = new MediaPlayer();
+            _pausePlayer = new MediaPlayer();
+            _unpausePlayer = new MediaPlayer();
+            _rotatePlayer = new MediaPlayer();
+            _blockPlayer = new MediaPlayer();
+            _slamPlayer = new MediaPlayer();
+            _musicPlayer.Open(new Uri(@"Sounds\Tetris.wav", UriKind.Relative));
+            _pausePlayer.Open(new Uri(@"Sounds\pause.wav", UriKind.Relative));
+            _unpausePlayer.Open(new Uri(@"Sounds\unpause.wav", UriKind.Relative));
+            _rotatePlayer.Open(new Uri(@"Sounds\rotate.wav", UriKind.Relative));
+            _blockPlayer.Open(new Uri(@"Sounds\block.wav", UriKind.Relative));
+            _slamPlayer.Open(new Uri(@"Sounds\slam.wav", UriKind.Relative));
+
+            _musicPlayer.MediaEnded += _musicPlayer_MediaEnded;
+            _pausePlayer.MediaEnded += mediaEnded;
+            _unpausePlayer.MediaEnded += mediaEnded;
+            _rotatePlayer.MediaEnded += mediaEnded;
+            _blockPlayer.MediaEnded += mediaEnded;
+            _slamPlayer.MediaEnded += mediaEnded;
+
+            _musicPlayer.Volume = 0.3;
+            _musicPlayer.Play();
         }
 
-        private void resizeTimer_Tick(object sender, EventArgs e)
+        public void PlayRotateSound()
         {
-            Invalidate();
-            _resizeTimer.Stop();
+            if (mstripTop.InvokeRequired)
+            {
+                SoundCallbackDelegate d = new SoundCallbackDelegate(PlayBlockSound);
+                this.Invoke(d);
+            }
+            else
+            {
+                _rotatePlayer.Play();
+            }
+        }
+
+        public void PlayBlockSound()
+        {
+            if (mstripTop.InvokeRequired)
+            {
+                SoundCallbackDelegate d = new SoundCallbackDelegate(PlayBlockSound);
+                this.Invoke(d);
+            }
+            else
+            {
+                _blockPlayer.Play();
+            }
+        }
+
+        public void PlaySlamSound()
+        {
+            if (mstripTop.InvokeRequired)
+            {
+                SoundCallbackDelegate d = new SoundCallbackDelegate(PlayBlockSound);
+                this.Invoke(d);
+            }
+            else
+            {
+                _slamPlayer.Play();
+            }
         }
 
         private void mainForm_Paint(object sender, PaintEventArgs e)
@@ -71,7 +128,7 @@ namespace Tetris {
 
         private void drawPause(Graphics g)
         {
-            g.FillRectangle(new SolidBrush(Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
+            g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
         }
 
         private void mstripNew_Click(object sender, EventArgs e)
@@ -106,7 +163,8 @@ namespace Tetris {
                 this.mstripGo.Enabled = false;
                 this.mstripPause.Enabled = true;
                 _resumer();
-                _musicPlayer.PlayLooping();
+                _unpausePlayer.Play();
+                _musicPlayer.Play();
                 Invalidate();
             }
         }
@@ -121,7 +179,8 @@ namespace Tetris {
                 this.mstripPause.Enabled = false;
                 this.mstripGo.Enabled = true;
                 _pauser();
-                _musicPlayer.Stop();
+                _musicPlayer.Pause();
+                _pausePlayer.Play();
                 Invalidate();
             }
         }
@@ -166,11 +225,29 @@ namespace Tetris {
             return base.IsInputKey(keyData);
         }
 
+        private void resizeTimer_Tick(object sender, EventArgs e)
+        {
+            Invalidate();
+            _resizeTimer.Stop();
+        }
+
         private void mainForm_Resize(object sender, EventArgs e) {
             /*
             resizeTimer.Interval = 100; //Milliseconds
             resizeTimer.Start();*/
             Invalidate();
+        }
+
+        private void _musicPlayer_MediaEnded(object sender, EventArgs e)
+        {
+            _musicPlayer.Position = TimeSpan.Zero;
+        }
+
+        private void mediaEnded(object sender, EventArgs e)
+        {
+            MediaPlayer player = sender as MediaPlayer;
+            player.Position = TimeSpan.Zero;
+            player.Stop();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -181,15 +258,13 @@ namespace Tetris {
             Invalidate();
 
             MessageBox.Show("Tetris v1.0.0\n" +
-                "Created by Daric Sage and Nick Peterson",
-                "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            /*
-               "Licenses:\n" +
+                "Created by Daric Sage and Nick Peterson\n\n" +
+                "Licenses:\n" +
                 "\"bloop1.wav\" created by Sergenious licensed under creative commons.\n" +
                 "\"level up.wav\" created by Cebeeno Rossley licensed under creative commons.\n" +
                 "\"jump2.wav\" created by LloydEvans09 licensed under creative commons.\n" +
-                "These sounds can be found on http://freesound.org"
-             */
+                "These sounds can be found on http://freesound.org",
+                "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void controlsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -206,6 +281,11 @@ namespace Tetris {
                 "Space: Slams game piece.\n" +
                 "Home: Increases level by 1. (Cheat)",
                 "Controls", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //Dispose stuff
         }
     }//form
 }//namespace tetris

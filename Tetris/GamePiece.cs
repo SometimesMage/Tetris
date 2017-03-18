@@ -153,5 +153,23 @@ namespace Tetris
             return blockLoc;
         }
 
+        public GamePiece createGhostPiece(List<GameBlock> grid)
+        {
+            List<GameBlock> ghostBlocks = new List<GameBlock>();
+            foreach(GameBlock block in _blocks)
+            {
+                ghostBlocks.Add(new GameBlock(new Rectangle(block.bounds.X, block.bounds.Y, block.bounds.Width, block.bounds.Height),
+                    new Point(block.location.X, block.location.Y)));
+            }
+
+            GamePiece ghost = new GamePiece(ghostBlocks.ToArray(), ghostBlocks[0]);
+
+
+            while (ghost.canMoveDown(grid))
+                ghost.moveDown();
+
+            return ghost;
+        }
+
     }//gamepiece class
 }//tetris namespace

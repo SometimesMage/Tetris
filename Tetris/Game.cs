@@ -18,7 +18,7 @@ namespace Tetris {
         public Game(MainForm mainForm) {
             _mainForm = mainForm;
             _view = new Rectangle();
-            _playView = new GamePlayView();
+            _playView = new GamePlayView(mainForm);
             _infoView = new GameInfoView();
 
             _gameTimer = new System.Timers.Timer();
@@ -67,8 +67,11 @@ namespace Tetris {
 
         public void rotatePiece()
         {
-            _playView.rotatePiece();
-            _mainForm.Invalidate();
+            if (_playView.rotatePiece())
+            {
+                _mainForm.PlayRotateSound();
+                _mainForm.Invalidate();
+            }
         }
 
         public void movePieceRight()

@@ -7,16 +7,29 @@ using System.Drawing;
 
 namespace Tetris
 {
-    public abstract class TComponents   //T for tetris
+    public abstract class TComponents<T>   //T for tetris
     {
 
         protected Rectangle _box;
         protected String _title;
+        protected T _detail;
 
         public TComponents(String title)
         {
             _box = new Rectangle();
             _title = title;
+        }
+
+        public T detail
+        {
+            get
+            {
+                return _detail;
+            }
+            set
+            {
+                _detail = value;
+            }
         }
 
         public Rectangle box

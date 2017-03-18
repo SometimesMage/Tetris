@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    public class TNumberComponent : TComponents
+    public class TNumberComponent : TComponents<int>
     {
-        private int _detail;
-
         public TNumberComponent(String title) : base(title)
         {
 

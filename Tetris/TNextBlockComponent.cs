@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    public class TNextBlockComponent : TComponents
+    public class TNextBlockComponent : TComponents<GamePiece>
     {
         public TNextBlockComponent() : base("Next Block")
         {

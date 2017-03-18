@@ -10,10 +10,10 @@ namespace Tetris {
 
         private Rectangle _view;
         
-        private TComponents _nextBlock;
-        private TComponents _score;
-        private TComponents _lines;
-        private TComponents _level;
+        private TComponents<GamePiece> _nextBlock;
+        private TComponents<int> _score;
+        private TComponents<int> _lines;
+        private TComponents<int> _level;
 
         //IDEA: a list of TComponents, escpecially useful for drawing to iterate through and draw each
 
@@ -37,6 +37,41 @@ namespace Tetris {
             set {
                 _view = value;
             }
+        }
+
+        public void addNextBlock(GamePiece nextPiece)
+        {
+            _nextBlock.detail = nextPiece;
+        }
+
+        public void addToScore(int scoreToAdd)
+        {
+            if(scoreToAdd > 0)
+            {
+              _score.detail += scoreToAdd;
+            }
+        }
+
+        public void addToLine(int linesToAdd)
+        {
+            if(linesToAdd > 0)
+            {
+                int combo = linesToAdd - Constants.GAME_COMBO_LINES;
+                int score = (linesToAdd * Constants.GAME_LINE_SCORE + combo * Constants.GAME_COMBO_SCORE_BONUS) * _level.detail;
+
+                if (_lines.detail + linesToAdd >= Constants.GAME_LINES_PER_LEVEL)
+                {
+                    addToLevel();
+                }
+                _lines.detail = (_lines.detail + linesToAdd) % 10;
+
+                addToScore(score);
+            }
+        }
+
+        private void addToLevel()
+        {
+            _level.detail += (Constants.GAME_LEVEL_INCREMENT);
         }
 
         public void draw(Graphics g) {

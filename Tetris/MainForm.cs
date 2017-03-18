@@ -15,12 +15,9 @@ namespace Tetris {
         private delegate void PauseDelegate();
         private delegate void ResumeDelegate();
       
-
-<<<<<<< HEAD
         private Game game;
         private Timer resizeTimer;
-=======
->>>>>>> master
+
         private PauseDelegate pauser;
         private ResumeDelegate resumer;
 
@@ -60,15 +57,7 @@ namespace Tetris {
 
         private void drawPause(Graphics g)
         {
-<<<<<<< HEAD
-            using (Graphics g = CreateGraphics())
-            {
-                g.FillRectangle(new SolidBrush(Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
-            }
-            
-=======
             g.FillRectangle(new SolidBrush(Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
->>>>>>> master
         }
 
         private void mstripNew_Click(object sender, EventArgs e)

@@ -67,8 +67,10 @@ namespace Tetris {
 
         public void rotatePiece()
         {
-            _playView.rotatePiece();
-            _mainForm.Invalidate();
+            if (_playView.rotatePiece())
+            {
+                _mainForm.Invalidate();
+            }
         }
 
         public void movePieceRight()

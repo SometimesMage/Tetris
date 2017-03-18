@@ -93,6 +93,19 @@
   <ItemGroup>
     <EmbeddedResource Include="Sounds\Tetris.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Sounds\block.wav" />
+    <EmbeddedResource Include="Sounds\click.wav" />
+    <EmbeddedResource Include="Sounds\game-over.wav" />
+    <EmbeddedResource Include="Sounds\level-up.wav" />
+    <EmbeddedResource Include="Sounds\line.wav" />
+    <EmbeddedResource Include="Sounds\rotate.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Sounds\pause.wav" />
+    <EmbeddedResource Include="Sounds\slam.wav" />
+    <EmbeddedResource Include="Sounds\unpause.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

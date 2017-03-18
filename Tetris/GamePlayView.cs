@@ -141,10 +141,15 @@ namespace Tetris
             gameTick();
         }
 
-        public void rotatePiece()
+        public bool rotatePiece()
         {
             if (_gamePiece.canRotate(_blocks))
+            {
                 _gamePiece.rotate();
+                return true;
+            }
+
+            return false;
         }
 
     }//gameplayview class

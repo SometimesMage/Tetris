@@ -11,11 +11,13 @@ namespace Tetris
     {
         private Rectangle _bounds;
         private Point _location;
+        private Color _color;
 
         public GameBlock(Rectangle bounds = new Rectangle(), Point location = new Point())
         {
             _bounds = bounds;
             _location = location;
+            _color = Color.Black;
         }
 
         public Rectangle bounds 
@@ -31,10 +33,12 @@ namespace Tetris
             set { _location = value; }
         }
 
+        public Color Color { get => _color; set => _color = value; }
+
         public void draw(Graphics g, bool isGhost)
         {
             //Test Code
-            Color color = Color.FromArgb(isGhost ? 100 : 255, Color.Black);
+            Color color = Color.FromArgb(isGhost ? 100 : 255, _color);
             SolidBrush brush = new SolidBrush(color);
 
             g.FillRectangle(brush, _bounds);

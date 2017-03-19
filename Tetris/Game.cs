@@ -123,7 +123,7 @@ namespace Tetris {
 
         public void rotatePiece()
         {
-            if (_playView.rotatePiece())
+            if (!_gameOver && _playView.rotatePiece())
             {
                 _mainForm.PlayRotateSound();
                 _mainForm.Invalidate();
@@ -132,28 +132,37 @@ namespace Tetris {
 
         public void movePieceRight()
         {
-            _playView.movePieceRight();
-            _mainForm.Invalidate();
+            if (!_gameOver)
+            {
+                _playView.movePieceRight();
+                _mainForm.Invalidate();
+            }
         }
 
         public void movePieceLeft()
         {
-            _playView.movePieceLeft();
-            _mainForm.Invalidate();
+            if (!_gameOver)
+            {
+                _playView.movePieceLeft();
+                _mainForm.Invalidate();
+            }
         }
 
         public void movePieceDown()
         {
-            _playView.movePieceDown();
+            if (!_gameOver)
+            {
+                _playView.movePieceDown();
 
-            //test code>>>
+                //test code>>>
 
-            _infoView.addToScore(1);
+                _infoView.addToScore(1);
 
-            //<<<
-            _mainForm.Invalidate();
-            _gameTimer.Stop();
-            _gameTimer.Start();
+                //<<<
+                _mainForm.Invalidate();
+                _gameTimer.Stop();
+                _gameTimer.Start();
+            }
         }
 
         public void slamPiece()

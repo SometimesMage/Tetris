@@ -186,6 +186,7 @@ namespace Tetris {
                 Stream stream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 _game = (Game) formatter.Deserialize(stream);
                 _game.MainForm = this;
+                _game.makeTimer();
                 Invalidate();
                 stream.Close();
             }
@@ -245,6 +246,9 @@ namespace Tetris {
                     break;
                 case Keys.Space:
                     _game.slamPiece();
+                    break;
+                case Keys.Home:
+                    _game.addCheatLevel();
                     break;
             }
         }

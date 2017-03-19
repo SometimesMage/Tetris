@@ -22,6 +22,8 @@ namespace Tetris {
         public static readonly float GAME_MAX_SPEED = GAME_INITAIL_SPEED / 5f;
         public static readonly float GAME_DOWN_SPEED_MULTIPLIER = .5f;
         public static readonly float GAME_LEVEL_SPEED_MODIFIER = 0.25f;
+        public static readonly float GAME_LEVEL_SPEED_MULTIPLIER = 0.75f;
+        public static readonly int ONE_SECOND_MILLIS = 1000;
 
         //SCORES
         public static readonly int GAME_LINE_SCORE = 100;

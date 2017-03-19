@@ -27,13 +27,44 @@ namespace Tetris {
             _mainForm = mainForm;
             _view = new Rectangle();
             _playView = new GamePlayView(mainForm);
-            _infoView = new GameInfoView();
+            _infoView = new GameInfoView(this);
 
-            _gameTimer = new System.Timers.Timer();
-            _gameTimer.Interval = Convert.ToInt32(Constants.GAME_INITAIL_SPEED * 1000);
+            makeTimer();
+            /*_gameTimer.Elapsed += gameTick;
+            _gameTimer.AutoReset = true;
+            _gameTimer.Start();*/
+        }
+
+        public void makeTimer()
+        {
+
+            System.Timers.Timer createdTimer = new System.Timers.Timer();
+
+            int interval = Convert.ToInt32(Constants.GAME_INITAIL_SPEED * Constants.ONE_SECOND_MILLIS);
+            
+            for (int i = 1; i < _infoView.getLevel(); i++)
+            {
+                interval = Convert.ToInt32(interval * Constants.GAME_LEVEL_SPEED_MULTIPLIER);
+            }
+
+            createdTimer.Interval = interval;
+
+            _gameTimer = createdTimer;
+
+            //test code>>>
             _gameTimer.Elapsed += gameTick;
             _gameTimer.AutoReset = true;
             _gameTimer.Start();
+            //<<<
+        }
+
+        public void updateTimer(int level)
+        {
+            int newInterval = Convert.ToInt32(_gameTimer.Interval * Constants.GAME_LEVEL_SPEED_MULTIPLIER);
+            if(newInterval >= Constants.GAME_MAX_SPEED * Constants.ONE_SECOND_MILLIS)
+            {
+                _gameTimer.Interval = newInterval;
+            }
         }
 
         public void postGameTick(int tickResult)
@@ -112,6 +143,12 @@ namespace Tetris {
         public void movePieceDown()
         {
             _playView.movePieceDown();
+
+            //test code>>>
+
+            _infoView.addToScore(1);
+
+            //<<<
             _mainForm.Invalidate();
             _gameTimer.Stop();
             _gameTimer.Start();
@@ -145,5 +182,11 @@ namespace Tetris {
                 _playView.MainForm = value;
             }
         }
+
+        public void addCheatLevel()
+        {
+            _infoView.addToLevel();
+        }
+
     }//game class
 }//tetris namespace

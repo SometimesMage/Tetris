@@ -16,6 +16,7 @@ namespace Tetris {
         private Rectangle _view;
         private GamePlayView _playView;
         private GameInfoView _infoView;
+        private bool _gameOver;
         [NonSerialized]
         private System.Timers.Timer _gameTimer; 
 
@@ -28,7 +29,7 @@ namespace Tetris {
             _view = new Rectangle();
             _playView = new GamePlayView(mainForm);
             _infoView = new GameInfoView(this);
-
+            _gameOver = false;
             makeTimer();
             /*_gameTimer.Elapsed += gameTick;
             _gameTimer.AutoReset = true;
@@ -73,6 +74,7 @@ namespace Tetris {
             {
                 _gameTimer.Stop();
                 _mainForm.gameOver();
+                _gameOver = true;
             }
             else if(tickResult > 0)
             {
@@ -121,7 +123,7 @@ namespace Tetris {
 
         public void rotatePiece()
         {
-            if (_playView.rotatePiece())
+            if (!_gameOver && _playView.rotatePiece())
             {
                 _mainForm.PlayRotateSound();
                 _mainForm.Invalidate();
@@ -130,35 +132,47 @@ namespace Tetris {
 
         public void movePieceRight()
         {
-            _playView.movePieceRight();
-            _mainForm.Invalidate();
+            if (!_gameOver)
+            {
+                _playView.movePieceRight();
+                _mainForm.Invalidate();
+            }
         }
 
         public void movePieceLeft()
         {
-            _playView.movePieceLeft();
-            _mainForm.Invalidate();
+            if (!_gameOver)
+            {
+                _playView.movePieceLeft();
+                _mainForm.Invalidate();
+            }
         }
 
         public void movePieceDown()
         {
-            _playView.movePieceDown();
+            if (!_gameOver)
+            {
+                _playView.movePieceDown();
 
-            //test code>>>
+                //test code>>>
 
-            _infoView.addToScore(1);
+                _infoView.addToScore(1);
 
-            //<<<
-            _mainForm.Invalidate();
-            _gameTimer.Stop();
-            _gameTimer.Start();
+                //<<<
+                _mainForm.Invalidate();
+                _gameTimer.Stop();
+                _gameTimer.Start();
+            }
         }
 
         public void slamPiece()
         {
-            int result = _playView.slamPiece();
-            postGameTick(result);
-            _mainForm.Invalidate();
+            if (!_gameOver)
+            {
+                int result = _playView.slamPiece();
+                postGameTick(result);
+                _mainForm.Invalidate();
+            }
 
         }
 

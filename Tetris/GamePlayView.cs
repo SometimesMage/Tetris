@@ -135,6 +135,8 @@ namespace Tetris
             //Resize and Reposition GameBlocks
             _blocks.ForEach(block =>
             {
+                if (block.location.Y < 0)
+                    return;
                 var bounds = block.bounds;
                 bounds.Width = blockWidth;
                 bounds.Height = blockHeight;
@@ -145,7 +147,7 @@ namespace Tetris
             });
 
             //Draw Ghost Game Piece
-            GamePiece ghost = _gamePiece.createGhostPiece(_blocks, _gamePiece.pivot.Color);
+            GamePiece ghost = _gamePiece.createGhostPiece(_blocks);
             ghost.getBlocks().ForEach(block =>
             {
                 if (block.location.Y < 0)

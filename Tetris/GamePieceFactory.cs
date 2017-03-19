@@ -59,7 +59,7 @@ namespace Tetris
                     b4 = new GameBlock(location: new Point(centerBlock + 1, 0));
                     b4.Color = Constants.BLOCK_PIECE_COLOR;
 
-                    return new GamePiece(new GameBlock[] { b1, b2, b3, b4 }, b2);
+                    return new GamePiece(new GameBlock[] { b1, b2, b3, b4 }, null);
 
                 case GamePieces.T:
                     b1 = new GameBlock(location: new Point(centerBlock, 0));

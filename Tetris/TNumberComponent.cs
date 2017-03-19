@@ -32,11 +32,11 @@ namespace Tetris
             string titleString = _title;
             string detailString = Convert.ToString(_detail);
 
-            Tuple<Font, SizeF> titleTuple = adjustedFont(new Font(Constants.DEFAULT_FONT_TYPE, Constants.LARGEST_FONT_SIZE), titleString, g);
+            Tuple<Font, SizeF> titleTuple = _box.adjustedFont(new Font(Constants.DEFAULT_FONT_TYPE, Constants.LARGEST_FONT_SIZE), titleString, g);
             Font titleFont = titleTuple.Item1;
             SizeF titleSize = titleTuple.Item2;
 
-            Tuple<Font, SizeF> detailTuple = adjustedFont(titleFont, detailString, g);
+            Tuple<Font, SizeF> detailTuple = _box.adjustedFont(titleFont, detailString, g);
             Font detailFont = detailTuple.Item1;
             SizeF detailSize = detailTuple.Item2;
 

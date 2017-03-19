@@ -40,12 +40,18 @@ namespace Tetris
             Font detailFont = detailTuple.Item1;
             SizeF detailSize = detailTuple.Item2;
 
-            //where should centering math be put?? this looks atrocious>>>
+            //center title horizontally
             g.DrawString(_title, titleFont, Brushes.Purple, _box.X + ((_box.Width - titleSize.Width) / 2), _box.Y);
-            g.DrawString(Convert.ToString(_detail), detailFont, Brushes.Purple,
-                _box.X + ((_box.Width - detailSize.Width) / 2),
-                _box.Y + titleSize.Height + ((((_box.Y + _box.Height) - (_box.Y + titleSize.Height)) - detailSize.Height) / 2));
-            //<<<
+
+            //center detail horizontally and vertically
+            Rectangle rectBounds = (new Rectangle(_box.X, Convert.ToInt32(titleSize.Height) + _box.Y,
+                _box.Width, _box.Height - Convert.ToInt32(titleSize.Height)));
+            
+            Rectangle toDrawIn = new Rectangle(0, 0, Convert.ToInt32(detailSize.Width), Convert.ToInt32(detailSize.Height)).centerWithinBounds(rectBounds);
+
+            g.DrawString(Convert.ToString(_detail), detailFont, Constants.DEFAULT_BRUSH_COLOR, new PointF(toDrawIn.X, toDrawIn.Y));
+
+
         }
         
 

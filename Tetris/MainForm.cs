@@ -8,10 +8,15 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Reflection;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Tetris {
     public partial class MainForm : Form {
@@ -161,14 +166,29 @@ namespace Tetris {
         private void mstripSave_Click(object sender, EventArgs e)
         {
             this.mstripPause_Click(sender, e);
-            this.saveFileDialog.ShowDialog();
-
+            DialogResult result = this.saveFileDialog.ShowDialog();
+            if(result == DialogResult.OK)
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
+                formatter.Serialize(stream, _game);
+                stream.Close();
+            }
         }
 
         private void mstripLoad_Click(object sender, EventArgs e)
         {
             this.mstripPause_Click(sender, e);
-            this.openFileDialog.ShowDialog();
+            DialogResult result = this.openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                _game = (Game) formatter.Deserialize(stream);
+                _game.MainForm = this;
+                Invalidate();
+                stream.Close();
+            }
         }
 
         private void mstripExit_Click(object sender, EventArgs e)

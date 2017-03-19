@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
+    [Serializable]
     public class GamePiece
     {
         private List<GameBlock> _blocks;

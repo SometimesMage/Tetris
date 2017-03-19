@@ -6,14 +6,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace Tetris {
+    [Serializable]
     public class Game {
+        [NonSerialized]
         private MainForm _mainForm;
         private Rectangle _view;
         private GamePlayView _playView;
         private GameInfoView _infoView;
+        [NonSerialized]
         private System.Timers.Timer _gameTimer; 
+
+        public Game() : this(null)
+        {
+        }
 
         public Game(MainForm mainForm) {
             _mainForm = mainForm;
@@ -66,6 +74,7 @@ namespace Tetris {
             _playView.view = gameRect;
             _infoView.view = infoRect;
             _playView.draw(g);
+            _infoView.addNextBlock(_playView.nextPiece);
             _infoView.draw(g);
         }
 
@@ -125,5 +134,16 @@ namespace Tetris {
                 _view = value;
             }
         }//view property
+
+        public MainForm MainForm {
+            get {
+                return _mainForm;
+            }
+
+            set {
+                _mainForm = value;
+                _playView.MainForm = value;
+            }
+        }
     }//game class
 }//tetris namespace

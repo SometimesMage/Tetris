@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    public class TNextBlockComponent : TComponents<GamePiece>
+    [Serializable]
+    public class TNextBlockComponent : TComponents<GamePieces>
     {
         public TNextBlockComponent() : base("Next Block")
         {
@@ -24,6 +25,7 @@ namespace Tetris
             //where should centering math be put?? this looks atrocious>>>
             g.DrawString(_title, titleFont, Brushes.Purple, _box.X + ((_box.Width - titleSize.Width) / 2), _box.Y);
             //<<<
+
         }
     }
 }

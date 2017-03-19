@@ -8,15 +8,20 @@ using System.Drawing.Drawing2D;
 
 namespace Tetris
 {
+    [Serializable]
     public class GamePlayView
     {
 
         private Rectangle _view;
         private List<GameBlock> _blocks;
         private GamePiece _gamePiece;
+        [NonSerialized]
         private MainForm _mainForm;
         private Random _random;
         private int _seed;
+        private GamePieces _nextPiece;
+
+        public GamePlayView() : this(null) { }
 
         public GamePlayView(MainForm mainForm, Rectangle view = new Rectangle())
         {
@@ -27,6 +32,22 @@ namespace Tetris
             _blocks = new List<GameBlock>(Constants.GRID_WIDITH * Constants.GRID_HEIGHT);
             GamePieces pieceType = (GamePieces) Enum.GetValues(typeof(GamePieces)).GetValue(_random.Next(0, 7));
             _gamePiece = GamePieceFactory.Instance.createGamePiece(pieceType);
+            genNextPiece();
+        }
+
+        private GamePieces genNextPiece()
+        {
+            GamePieces pieceType = (GamePieces)Enum.GetValues(typeof(GamePieces)).GetValue(_random.Next(0, 7));
+            GamePieces temp = _nextPiece;
+            _nextPiece = pieceType;
+            return temp;
+        }
+
+        public GamePieces nextPiece 
+        {
+            get {
+                return _nextPiece;
+            }
         }
 
         public Rectangle view
@@ -34,6 +55,16 @@ namespace Tetris
             get { return _view; }
 
             set { _view = value; }
+        }
+
+        public MainForm MainForm {
+            get {
+                return _mainForm;
+            }
+
+            set {
+                _mainForm = value;
+            }
         }
 
         public int gameTick(bool slam = false)
@@ -47,8 +78,7 @@ namespace Tetris
                 if(!slam)
                     _mainForm.PlayBlockSound();
                 _blocks.AddRange(_gamePiece.getBlocks());
-                GamePieces pieceType = (GamePieces)Enum.GetValues(typeof(GamePieces)).GetValue(_random.Next(0, 7));
-                _gamePiece = GamePieceFactory.Instance.createGamePiece(pieceType);
+                _gamePiece = GamePieceFactory.Instance.createGamePiece(genNextPiece());
 
                 //Line Complete Dectection
                 int lines = 0;

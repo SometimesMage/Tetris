@@ -99,16 +99,28 @@ namespace Tetris {
                 rects[i] = new Rectangle( rect.X, changingY, rect.Width, newHeight);
                 changingY += rects[i].Height;//make sure right math??
             }
-
-
-            /*
-            Rectangle rect1 = new Rectangle(rect.X, rect.Y, rect.Width, (int)((rect.Height) * splitRatio));
-            Rectangle rect2 = new Rectangle(rect.X, rect1.Y + rect1.Height, rect.Width, (int)(rect.Height * splitRatio));
-            Rectangle rect3 = new Rectangle(rect.X, rect1.Y + rect1.Height + rect2.Height, rect.Width, (int)(rect.Height * splitRatio));
-            Rectangle rect4 = new Rectangle(rect.X, rect1.Y + rect1.Height + rect2.Height + rect3.Height, rect.Width, (int)(rect.Height * splitRatio));
-            */
-
             return rects;
         }
+
+        public static Tuple<Font, SizeF> adjustedFont(this Rectangle boundingBox, Font startFont, String toDraw, Graphics g)
+        {
+
+            Font toReturn = startFont;
+            SizeF potentialSize = new SizeF();
+
+            int i;
+            for (i = Convert.ToInt32(startFont.Size); i >= Constants.SMALLEST_FONT_SIZE; i--)
+            {
+                potentialSize = g.MeasureString(toDraw, toReturn = new Font(Constants.DEFAULT_FONT_TYPE, i));
+                if (potentialSize.Width <= boundingBox.Width)
+                {
+                    break;
+                }
+            }
+
+
+            return Tuple.Create(toReturn, potentialSize);
+        }
+
     }
 }

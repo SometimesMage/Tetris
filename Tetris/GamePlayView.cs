@@ -14,13 +14,18 @@ namespace Tetris
         private List<GameBlock> _blocks;
         private GamePiece _gamePiece;
         private MainForm _mainForm;
+        private Random _random;
+        private int _seed;
 
         public GamePlayView(MainForm mainForm, Rectangle view = new Rectangle())
         {
             _view = view;
             _mainForm = mainForm;
+            _seed = DateTime.Now.Millisecond;
+            _random = new Random(_seed);
             _blocks = new List<GameBlock>(Constants.GRID_WIDITH * Constants.GRID_HEIGHT);
-            _gamePiece = GamePieceFactory.Instance.createGamePiece(GamePieces.L_RIGHT);
+            GamePieces pieceType = (GamePieces) Enum.GetValues(typeof(GamePieces)).GetValue(_random.Next(0, 7));
+            _gamePiece = GamePieceFactory.Instance.createGamePiece(pieceType);
         }
 
         public Rectangle view
@@ -30,7 +35,7 @@ namespace Tetris
             set { _view = value; }
         }
 
-        public void gameTick(bool slam = false)
+        public int gameTick(bool slam = false)
         {
             if (_gamePiece.canMoveDown(_blocks))
             {
@@ -41,9 +46,36 @@ namespace Tetris
                 if(!slam)
                     _mainForm.PlayBlockSound();
                 _blocks.AddRange(_gamePiece.getBlocks());
-                _gamePiece = GamePieceFactory.Instance.createGamePiece(GamePieces.L_RIGHT);
+                GamePieces pieceType = (GamePieces)Enum.GetValues(typeof(GamePieces)).GetValue(_random.Next(0, 7));
+                _gamePiece = GamePieceFactory.Instance.createGamePiece(pieceType);
+
+                //Line Complete Dectection
+                int lines = 0;
+                for(int i = 0; i < Constants.GRID_HEIGHT; i++)
+                {
+                    var row = from block in _blocks where block.location.Y == i select block;
+                    if(row.Count() == Constants.GRID_WIDITH)
+                    {
+                        lines++;
+                        _blocks.RemoveAll(block => block.location.Y == i);
+                        _blocks.ForEach(block =>
+                        {
+                            if (block.location.Y < i)
+                                block.moveDown();
+                        });
+                    }
+                }
+
+                //Game Over Dectection
+                bool gameover = _blocks.Any(block => block.location.Y < 0);
+                if (gameover)
+                {
+                    return -1;
+                }
+
+                return lines;
             }
-            //TODO check if a line is complete
+            return 0;
         }
 
         public void draw(Graphics g)
@@ -135,7 +167,7 @@ namespace Tetris
             gameTick();
         }
 
-        public void slamPiece()
+        public int slamPiece()
         {
             while (_gamePiece.canMoveDown(_blocks))
             {
@@ -143,7 +175,7 @@ namespace Tetris
             }
 
             _mainForm.PlaySlamSound();
-            gameTick(true);
+            return gameTick(true);
         }
 
         public bool rotatePiece()

@@ -28,9 +28,23 @@ namespace Tetris {
             _gameTimer.Start();
         }
 
+        public void postGameTick(int tickResult)
+        {
+            if(tickResult == -1)
+            {
+                _gameTimer.Stop();
+                _mainForm.gameOver();
+            }
+            else if(tickResult > 0)
+            {
+                _infoView.addToLine(tickResult);
+            }
+        }
+
         public void gameTick(object sender, EventArgs args) 
         {
-            _playView.gameTick();
+            int result = _playView.gameTick();
+            postGameTick(result);
             _mainForm.Invalidate();
         }
 
@@ -96,8 +110,10 @@ namespace Tetris {
 
         public void slamPiece()
         {
-            _playView.slamPiece();
+            int result = _playView.slamPiece();
+            postGameTick(result);
             _mainForm.Invalidate();
+
         }
 
         public Rectangle view {

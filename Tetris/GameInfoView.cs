@@ -25,7 +25,7 @@ namespace Tetris {
             _score = new TNumberComponent("Score");
             _lines = new TNumberComponent("Lines");
             _level = new TNumberComponent("Level");
-            
+            _level.detail = 1;
         }
 
 

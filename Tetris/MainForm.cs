@@ -33,6 +33,8 @@ namespace Tetris {
         private PauseDelegate _pauser;
         private ResumeDelegate _resumer;
 
+        private bool _gameover;
+
         public MainForm() {
 
             InitializeComponent();
@@ -111,6 +113,14 @@ namespace Tetris {
             }
         }
 
+        public void gameOver()
+        {
+            this.mstripPause.Enabled = false;
+            this.mstripGo.Enabled = false;
+            this._gameover = true;
+            Invalidate();
+        }
+
         private void mainForm_Paint(object sender, PaintEventArgs e)
         {
             Rectangle gameView = this.ClientRectangle;
@@ -129,6 +139,10 @@ namespace Tetris {
         private void drawPause(Graphics g)
         {
             g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
+            if(_gameover)
+            {
+                g.DrawString("Game Over", new Font(Constants.DEFAULT_FONT_TYPE, Constants.LARGEST_FONT_SIZE), System.Drawing.Brushes.Black, new PointF(50, 50));
+            }
         }
 
         private void mstripNew_Click(object sender, EventArgs e)

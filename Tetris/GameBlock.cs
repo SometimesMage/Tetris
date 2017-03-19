@@ -33,7 +33,12 @@ namespace Tetris
             set { _location = value; }
         }
 
-        public Color Color { get => _color; set => _color = value; }
+        public Color Color { get { return _color; } set { _color = value; } }
+
+        public void moveDown()
+        {
+            _location.Y++;
+        }
 
         public void draw(Graphics g, bool isGhost)
         {

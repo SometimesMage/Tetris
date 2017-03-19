@@ -27,6 +27,9 @@ namespace Tetris {
         public static readonly int GAME_LINE_SCORE = 100;
         public static readonly int GAME_COMBO_SCORE_BONUS = 50;
         public static readonly int GAME_SLAM_PER_BLOCK_SCORE = 1;
+        public static readonly int GAME_LEVEL_INCREMENT = 1;
+        public static readonly int GAME_LINES_PER_LEVEL = 10;
+        public static readonly int GAME_COMBO_LINES = 1;
 
         //COLORS
         public static readonly Color BACKGROUND_COLOR = Color.FromArgb(255, 0, 0, 0);

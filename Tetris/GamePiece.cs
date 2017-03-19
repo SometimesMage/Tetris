@@ -154,13 +154,21 @@ namespace Tetris
             return blockLoc;
         }
 
-        public GamePiece createGhostPiece(List<GameBlock> grid)
+        public GamePiece createGhostPiece(List<GameBlock> grid, Color ghostBlockColor)
         {
             List<GameBlock> ghostBlocks = new List<GameBlock>();
             foreach(GameBlock block in _blocks)
             {
-                ghostBlocks.Add(new GameBlock(new Rectangle(block.bounds.X, block.bounds.Y, block.bounds.Width, block.bounds.Height),
-                    new Point(block.location.X, block.location.Y)));
+                /*ghostBlocks.Add(new GameBlock(new Rectangle(block.bounds.X, block.bounds.Y, block.bounds.Width, block.bounds.Height),
+                    new Point(block.location.X, block.location.Y)));*/
+                GameBlock ghostSubBlock = new GameBlock(new Rectangle(block.bounds.X, block.bounds.Y, block.bounds.Width, block.bounds.Height),
+                    new Point(block.location.X, block.location.Y));
+
+                ghostSubBlock.Color = ghostBlockColor;
+
+                ghostBlocks.Add(ghostSubBlock);
+
+
             }
 
             GamePiece ghost = new GamePiece(ghostBlocks.ToArray(), ghostBlocks[0]);

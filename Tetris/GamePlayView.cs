@@ -145,7 +145,7 @@ namespace Tetris
             });
 
             //Draw Ghost Game Piece
-            GamePiece ghost = _gamePiece.createGhostPiece(_blocks);
+            GamePiece ghost = _gamePiece.createGhostPiece(_blocks, _gamePiece.pivot.Color);
             ghost.getBlocks().ForEach(block =>
             {
                 if (block.location.Y < 0)
@@ -199,6 +199,7 @@ namespace Tetris
 
         public int slamPiece()
         {
+            //TODO scoring with regards to slamming
             while (_gamePiece.canMoveDown(_blocks))
             {
                 _gamePiece.moveDown();

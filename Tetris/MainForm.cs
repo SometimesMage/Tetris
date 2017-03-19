@@ -230,6 +230,8 @@ namespace Tetris {
 
         private void mainForm_KeyDown(object sender, KeyEventArgs e)
         {
+            if (!mstripPause.Enabled)
+                return;
             switch(e.KeyCode)
             {
                 case Keys.Right:

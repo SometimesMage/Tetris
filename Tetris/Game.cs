@@ -169,8 +169,9 @@ namespace Tetris {
         {
             if (!_gameOver)
             {
-                int result = _playView.slamPiece();
-                postGameTick(result);
+                Tuple<int, int> result = _playView.slamPiece();
+                postGameTick(result.Item1);
+                _infoView.addToScore(result.Item2 * 2);
                 _mainForm.Invalidate();
             }
 

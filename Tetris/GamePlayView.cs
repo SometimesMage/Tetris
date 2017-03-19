@@ -199,16 +199,19 @@ namespace Tetris
             gameTick();
         }
 
-        public int slamPiece()
+        public Tuple<int, int> slamPiece()
         {
             //TODO scoring with regards to slamming
+            int slamLines = 0;
             while (_gamePiece.canMoveDown(_blocks))
             {
                 _gamePiece.moveDown();
+                slamLines++;
             }
 
             _mainForm.PlaySlamSound();
-            return gameTick(true);
+            int lines = gameTick(true);
+            return new Tuple<int, int>(lines, slamLines);
         }
 
         public bool rotatePiece()

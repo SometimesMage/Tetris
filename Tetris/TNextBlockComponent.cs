@@ -17,7 +17,7 @@ namespace Tetris
         {
             string titleString = _title;
 
-            Tuple<Font, SizeF> titleTuple = adjustedFont(new Font(Constants.DEFAULT_FONT_TYPE, Constants.LARGEST_FONT_SIZE), titleString, g);
+            Tuple<Font, SizeF> titleTuple = _box.adjustedFont(new Font(Constants.DEFAULT_FONT_TYPE, Constants.LARGEST_FONT_SIZE), titleString, g);
             Font titleFont = titleTuple.Item1;
             SizeF titleSize = titleTuple.Item2;
 

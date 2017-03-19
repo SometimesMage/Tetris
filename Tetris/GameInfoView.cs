@@ -92,24 +92,10 @@ namespace Tetris {
 
         private void setComponents(Rectangle[] components)
         {
-
-
-            /*Rectangle[] splits;
-
-            for(int i = 0; i < components.Length; i++)
-            {
-
-                splits = components[i].splitVertically(Constants.GAME_INFO_VIEW_SPLIT2);
-
-
-            }*/
-
             _nextBlock.box = components[0];
             _score.box = components[1];
             _lines.box = components[2];
             _level.box = components[3];
-
-
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Tetris {
         public static readonly int GAME_MIN_INFO_MARGIN = 5;
 
         //SPEEDS
-        public static readonly float GAME_INITAIL_SPEED = 1.0f;
+        public static readonly float GAME_INITAIL_SPEED = 0.5f;
         public static readonly float GAME_MAX_SPEED = GAME_INITAIL_SPEED / 5f;
         public static readonly float GAME_DOWN_SPEED_MULTIPLIER = .5f;
         public static readonly float GAME_LEVEL_SPEED_MODIFIER = 0.25f;
@@ -35,9 +35,10 @@ namespace Tetris {
 
         //COLORS
         public static readonly Color BACKGROUND_COLOR = Color.FromArgb(0, 0, 0);
-        public static readonly Color GAME_BACKGROUND_COLOR = Color.SkyBlue;
-        public static readonly Color GAME_BACKGROUND_COLOR_2 = Color.Blue;
-        public static readonly Brush DEFAULT_BRUSH_COLOR = Brushes.Purple;
+        public static readonly Color GAME_BACKGROUND_COLOR = Color.White;
+        public static readonly Color GAME_BACKGROUND_COLOR_2 = Color.SkyBlue;
+        public static readonly Color INFO_BACKGROUND_COLOR = Color.Silver;
+        public static readonly Brush DEFAULT_BRUSH_COLOR = Brushes.Black;
         public static readonly Color LINE_GAME_PIECE_COLOR = Color.FromArgb(0, 240, 240);
         public static readonly Color L_LEFT_PIECE_COLOR = Color.FromArgb(0, 0, 240);
         public static readonly Color L_RIGHT_PIECE_COLOR = Color.FromArgb(240, 160, 0);

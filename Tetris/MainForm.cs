@@ -21,8 +21,6 @@ using System.Xml.Serialization;
 namespace Tetris {
     public partial class MainForm : Form {
 
-        private delegate void PauseDelegate();
-        private delegate void ResumeDelegate();
         private delegate void SoundCallbackDelegate();
 
         private MediaPlayer _musicPlayer;
@@ -35,19 +33,17 @@ namespace Tetris {
         private Game _game;
         private Timer _resizeTimer;
 
-        private PauseDelegate _pauser;
-        private ResumeDelegate _resumer;
-
         private bool _gameover;
+        private int _highscore;
 
         public MainForm() {
 
             InitializeComponent();
             DoubleBuffered = true;
             this._game = new Game(this);
-          
-            _pauser = _game.pauseGame;
-            _resumer = _game.resumeGame;
+            mstripGo.Enabled = true;
+            mstripPause.Enabled = false;
+            _game.GameTimer.Stop();
           
             this._resizeTimer = new Timer();
             _resizeTimer.Tick += resizeTimer_Tick;
@@ -74,6 +70,16 @@ namespace Tetris {
 
             _musicPlayer.Volume = 0.3;
             _musicPlayer.Play();
+
+            //Get Highscore
+            if(File.Exists("highscore.txt"))
+            {
+                StreamReader reader = new StreamReader(new FileStream("highscore.txt", FileMode.Open));
+                _highscore = Convert.ToInt32(reader.ReadLine());
+                reader.Close();
+                reader.Dispose();
+            }
+
         }
 
         public void PlayRotateSound()
@@ -121,6 +127,25 @@ namespace Tetris {
             this.mstripGo.Enabled = false;
             this._gameover = true;
             Invalidate();
+            
+
+            if(_game.Score > _highscore)
+            {
+                MessageBox.Show("Highscore!!!!\n" 
+                    + "Score: " + _game.Score + "\n"
+                    + "Level: " + _game.Level, "Game Over");
+                _highscore = _game.Score;
+                StreamWriter writer = new StreamWriter(new FileStream("highscore.txt", FileMode.Create));
+                writer.WriteLine(Convert.ToString(_highscore));
+                writer.Flush();
+                writer.Close();
+                writer.Dispose();
+            }
+            else
+            {
+                MessageBox.Show("Score: " + _game.Score + "\n"
+                     + "Level: " + _game.Level, "Game Over");
+            }
         }
 
         private void mainForm_Paint(object sender, PaintEventArgs e)
@@ -158,6 +183,10 @@ namespace Tetris {
 
         private void mstripNew_Click(object sender, EventArgs e)
         {
+            _game = new Game(this);
+            mstripPause.Enabled = true;
+            mstripGo.Enabled = false;
+            _gameover = false;
             //start game and setup
             //??disable the 'game' mstrip??
             //enable 'pause' mstrip
@@ -187,6 +216,7 @@ namespace Tetris {
                 _game = (Game) formatter.Deserialize(stream);
                 _game.MainForm = this;
                 _game.makeTimer();
+                _game.GameTimer.Stop();
                 Invalidate();
                 stream.Close();
             }
@@ -203,7 +233,7 @@ namespace Tetris {
             {
                 this.mstripGo.Enabled = false;
                 this.mstripPause.Enabled = true;
-                _resumer();
+                _game.GameTimer.Start();
                 _unpausePlayer.Play();
                 _musicPlayer.Play();
                 Invalidate();
@@ -216,7 +246,7 @@ namespace Tetris {
             {
                 this.mstripPause.Enabled = false;
                 this.mstripGo.Enabled = true;
-                _pauser();
+                _game.GameTimer.Stop();
                 _musicPlayer.Pause();
                 _pausePlayer.Play();
                 Invalidate();
@@ -225,7 +255,15 @@ namespace Tetris {
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //ask if they want to save?
+            mstripPause_Click(sender, e);
+            DialogResult result = MessageBox.Show("Do you want to save?", "Exiting...", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+            if(result == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            } else if(result == DialogResult.Yes)
+            {
+                mstripSave_Click(sender, e);
+            }
         }
 
         private void mainForm_KeyDown(object sender, KeyEventArgs e)
@@ -298,7 +336,8 @@ namespace Tetris {
             this.mstripPause_Click(sender, e);
 
             MessageBox.Show("Tetris v1.0.0\n" +
-                "Created by Daric Sage and Nick Peterson\n\n" +
+                "Created by Daric Sage and Nick Peterson\n" +
+                "Highscore: " + _highscore + "\n\n" +
                 "Licenses:\n" +
                 "\"bloop1.wav\" created by Sergenious licensed under creative commons.\n" +
                 "\"level up.wav\" created by Cebeeno Rossley licensed under creative commons.\n" +
@@ -322,7 +361,7 @@ namespace Tetris {
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //Dispose stuff
+            //Dispose Stuff
         }
     }//form
 }//namespace tetris

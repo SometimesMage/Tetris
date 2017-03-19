@@ -133,10 +133,10 @@
     <Content Include="Images\Block.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\Curve_Left.png">
+    <Content Include="Images\Curve_Right.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\Curve_Right.png">
+    <Content Include="Images\Curve_Left.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Line.png">

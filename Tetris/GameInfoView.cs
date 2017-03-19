@@ -44,6 +44,16 @@ namespace Tetris {
             }
         }
 
+        public int getScore()
+        {
+            return _score.detail;
+        }
+
+        public int getLines()
+        {
+            return _lines.detail;
+        }
+
         public int getLevel()
         {
             return _level.detail;
@@ -87,8 +97,9 @@ namespace Tetris {
 
         public void draw(Graphics g) {
 
+            Brush brush = new SolidBrush(Constants.INFO_BACKGROUND_COLOR);
             
-            g.FillRectangle(new SolidBrush(Color.Beige), _view);
+            g.FillRectangle(brush, _view);
 
             Rectangle[] components = _view.splitVertically(Constants.GAME_INFO_RECTS);
 
@@ -99,6 +110,7 @@ namespace Tetris {
             _lines.draw(g);
             _level.draw(g);
 
+            brush.Dispose();
         }
 
         private void setComponents(Rectangle[] components)

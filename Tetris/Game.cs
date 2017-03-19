@@ -16,6 +16,7 @@ namespace Tetris {
         private Rectangle _view;
         private GamePlayView _playView;
         private GameInfoView _infoView;
+        private bool _gameOver;
         [NonSerialized]
         private System.Timers.Timer _gameTimer; 
 
@@ -28,6 +29,7 @@ namespace Tetris {
             _view = new Rectangle();
             _playView = new GamePlayView(mainForm);
             _infoView = new GameInfoView();
+            _gameOver = false;
 
             _gameTimer = new System.Timers.Timer();
             _gameTimer.Interval = Convert.ToInt32(Constants.GAME_INITAIL_SPEED * 1000);
@@ -42,6 +44,7 @@ namespace Tetris {
             {
                 _gameTimer.Stop();
                 _mainForm.gameOver();
+                _gameOver = true;
             }
             else if(tickResult > 0)
             {
@@ -119,9 +122,12 @@ namespace Tetris {
 
         public void slamPiece()
         {
-            int result = _playView.slamPiece();
-            postGameTick(result);
-            _mainForm.Invalidate();
+            if (!_gameOver)
+            {
+                int result = _playView.slamPiece();
+                postGameTick(result);
+                _mainForm.Invalidate();
+            }
 
         }
 

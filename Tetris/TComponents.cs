@@ -7,6 +7,7 @@ using System.Drawing;
 
 namespace Tetris
 {
+    [Serializable]
     public abstract class TComponents<T>   //T for tetris
     {
 
@@ -29,6 +30,16 @@ namespace Tetris
             set
             {
                 _detail = value;
+            }
+        }
+
+        public String title {
+            get {
+                return _title;
+            }
+
+            set {
+                _title = value;
             }
         }
 

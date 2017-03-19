@@ -6,11 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tetris {
+    [Serializable]
     public class GameInfoView {
 
         private Rectangle _view;
         
-        private TComponents<GamePiece> _nextBlock;
+        private TComponents<GamePieces> _nextBlock;
         private TComponents<int> _score;
         private TComponents<int> _lines;
         private TComponents<int> _level;
@@ -25,7 +26,7 @@ namespace Tetris {
             _score = new TNumberComponent("Score");
             _lines = new TNumberComponent("Lines");
             _level = new TNumberComponent("Level");
-            
+            _level.detail = 1;
         }
 
 
@@ -39,7 +40,7 @@ namespace Tetris {
             }
         }
 
-        public void addNextBlock(GamePiece nextPiece)
+        public void addNextBlock(GamePieces nextPiece)
         {
             _nextBlock.detail = nextPiece;
         }

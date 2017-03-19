@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Tetris
 {
@@ -81,7 +82,8 @@ namespace Tetris
         public void draw(Graphics g)
         {
             //Draw Background
-            g.FillRectangle(new SolidBrush(Constants.GAME_BACKGROUND_COLOR), _view);
+            LinearGradientBrush brush = new LinearGradientBrush(_view, Constants.GAME_BACKGROUND_COLOR, Constants.GAME_BACKGROUND_COLOR_2, 0.0f);
+            g.FillRectangle(brush, _view);
 
             int blockWidth = _view.Width / Constants.GRID_WIDITH;
             int blockHeight = _view.Height / Constants.GRID_HEIGHT;
@@ -89,7 +91,7 @@ namespace Tetris
             int centerY = (_view.Height - blockHeight * Constants.GRID_HEIGHT) / 2 + _view.Y;
 
             //Draw Grid
-            Pen pen = new Pen(Color.Blue);
+            /*Pen pen = new Pen(Color.Blue);
             for(int x = 0; x <= Constants.GRID_WIDITH; x++) {
                 int lineX = centerX + (x * blockWidth);
                 g.DrawLine(pen, lineX, centerY, lineX, centerY + (blockHeight * Constants.GRID_HEIGHT));
@@ -98,26 +100,11 @@ namespace Tetris
             for(int y = 0; y <= Constants.GRID_HEIGHT; y++) {
                 int lineY = centerY + (y * blockHeight);
                 g.DrawLine(pen, centerX, lineY, centerX + (blockWidth * Constants.GRID_WIDITH), lineY);
-            }
+            }*/
 
             //Resize and Reposition GameBlocks
             _blocks.ForEach(block =>
             {
-                var bounds = block.bounds;
-                bounds.Width = blockWidth;
-                bounds.Height = blockHeight;
-                bounds.X = block.location.X * blockWidth + centerX;
-                bounds.Y = block.location.Y * blockHeight + centerY;
-                block.bounds = bounds;
-                block.draw(g, false);
-            });
-
-            //Draw Game Piece
-            _gamePiece.getBlocks().ForEach(block =>
-            {
-                if (block.location.Y < 0)
-                    return;
-
                 var bounds = block.bounds;
                 bounds.Width = blockWidth;
                 bounds.Height = blockHeight;
@@ -143,7 +130,20 @@ namespace Tetris
                 block.draw(g, true);
             });
 
+            //Draw Game Piece
+            _gamePiece.getBlocks().ForEach(block =>
+            {
+                if (block.location.Y < 0)
+                    return;
 
+                var bounds = block.bounds;
+                bounds.Width = blockWidth;
+                bounds.Height = blockHeight;
+                bounds.X = block.location.X * blockWidth + centerX;
+                bounds.Y = block.location.Y * blockHeight + centerY;
+                block.bounds = bounds;
+                block.draw(g, false);
+            });
         }//draw method
 
         public void movePieceRight()

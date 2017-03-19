@@ -32,8 +32,16 @@ namespace Tetris {
         public static readonly int GAME_COMBO_LINES = 1;
 
         //COLORS
-        public static readonly Color BACKGROUND_COLOR = Color.FromArgb(255, 0, 0, 0);
-        public static readonly Color GAME_BACKGROUND_COLOR = Color.AliceBlue;
+        public static readonly Color BACKGROUND_COLOR = Color.FromArgb(0, 0, 0);
+        public static readonly Color GAME_BACKGROUND_COLOR = Color.SkyBlue;
+        public static readonly Color GAME_BACKGROUND_COLOR_2 = Color.Blue;
+        public static readonly Color LINE_GAME_PIECE_COLOR = Color.FromArgb(0, 240, 240);
+        public static readonly Color L_LEFT_PIECE_COLOR = Color.FromArgb(0, 0, 240);
+        public static readonly Color L_RIGHT_PIECE_COLOR = Color.FromArgb(240, 160, 0);
+        public static readonly Color CURVE_LEFT_PIECE_COLOR = Color.FromArgb(0, 240, 0);
+        public static readonly Color CURVE_RIGHT_PEICE_COLOR = Color.FromArgb(240, 0, 0);
+        public static readonly Color T_PIECE_COLOR = Color.FromArgb(160, 0, 240);
+        public static readonly Color BLOCK_PIECE_COLOR = Color.FromArgb(240, 240, 0);
 
         //FONT
         public static readonly int LARGEST_FONT_SIZE = 54;

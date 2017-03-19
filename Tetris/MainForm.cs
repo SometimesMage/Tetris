@@ -47,9 +47,6 @@ namespace Tetris {
             this._resizeTimer = new Timer();
             _resizeTimer.Tick += resizeTimer_Tick;
 
-            /*_assembly = Assembly.GetExecutingAssembly();
-            _musicStream = _assembly.GetManifestResourceStream("Tetris.Sounds.Tetris.wav");*/
-
             _musicPlayer = new MediaPlayer();
             _pausePlayer = new MediaPlayer();
             _unpausePlayer = new MediaPlayer();
@@ -163,11 +160,14 @@ namespace Tetris {
 
         private void mstripSave_Click(object sender, EventArgs e)
         {
+            this.mstripPause_Click(sender, e);
             this.saveFileDialog.ShowDialog();
+
         }
 
         private void mstripLoad_Click(object sender, EventArgs e)
         {
+            this.mstripPause_Click(sender, e);
             this.openFileDialog.ShowDialog();
         }
 
@@ -178,9 +178,6 @@ namespace Tetris {
 
         private void mstripGo_Click(object sender, EventArgs e)
         {
-            //resume timer
-            //disable pause
-            //??disable 'game' mstrip??
             if (!this.mstripPause.Enabled)
             {
                 this.mstripGo.Enabled = false;
@@ -194,9 +191,6 @@ namespace Tetris {
 
         private void mstripPause_Click(object sender, EventArgs e)
         {
-            //pause the timer
-            //disable go
-            //??enable 'game' mstrip??
             if (!this.mstripGo.Enabled)
             {
                 this.mstripPause.Enabled = false;
@@ -275,10 +269,7 @@ namespace Tetris {
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.mstripPause.Enabled = false;
-            _pauser();
-            _musicPlayer.Stop();
-            Invalidate();
+            this.mstripPause_Click(sender, e);
 
             MessageBox.Show("Tetris v1.0.0\n" +
                 "Created by Daric Sage and Nick Peterson\n\n" +
@@ -292,10 +283,7 @@ namespace Tetris {
 
         private void controlsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.mstripPause.Enabled = false;
-            _pauser();
-            _musicPlayer.Stop();
-            Invalidate();
+            this.mstripPause_Click(sender, e);
 
             MessageBox.Show("Left Arrow: Moves game piece left.\n" +
                 "Right Arrow: Moves game piece right.\n" +

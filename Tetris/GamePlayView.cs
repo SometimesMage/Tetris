@@ -4,23 +4,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Tetris
 {
+    [Serializable]
     public class GamePlayView
     {
 
         private Rectangle _view;
         private List<GameBlock> _blocks;
         private GamePiece _gamePiece;
+        [NonSerialized]
         private MainForm _mainForm;
+        private Random _random;
+        private int _seed;
+        private GamePieces _nextPiece;
+
+        public GamePlayView() : this(null) { }
 
         public GamePlayView(MainForm mainForm, Rectangle view = new Rectangle())
         {
             _view = view;
             _mainForm = mainForm;
+            _seed = DateTime.Now.Millisecond;
+            _random = new Random(_seed);
             _blocks = new List<GameBlock>(Constants.GRID_WIDITH * Constants.GRID_HEIGHT);
-            _gamePiece = GamePieceFactory.Instance.createGamePiece(GamePieces.L_RIGHT);
+            GamePieces pieceType = (GamePieces) Enum.GetValues(typeof(GamePieces)).GetValue(_random.Next(0, 7));
+            _gamePiece = GamePieceFactory.Instance.createGamePiece(pieceType);
+            genNextPiece();
+        }
+
+        private GamePieces genNextPiece()
+        {
+            GamePieces pieceType = (GamePieces)Enum.GetValues(typeof(GamePieces)).GetValue(_random.Next(0, 7));
+            GamePieces temp = _nextPiece;
+            _nextPiece = pieceType;
+            return temp;
+        }
+
+        public GamePieces nextPiece 
+        {
+            get {
+                return _nextPiece;
+            }
         }
 
         public Rectangle view
@@ -30,7 +57,17 @@ namespace Tetris
             set { _view = value; }
         }
 
-        public void gameTick(bool slam = false)
+        public MainForm MainForm {
+            get {
+                return _mainForm;
+            }
+
+            set {
+                _mainForm = value;
+            }
+        }
+
+        public int gameTick(bool slam = false)
         {
             if (_gamePiece.canMoveDown(_blocks))
             {
@@ -41,15 +78,42 @@ namespace Tetris
                 if(!slam)
                     _mainForm.PlayBlockSound();
                 _blocks.AddRange(_gamePiece.getBlocks());
-                _gamePiece = GamePieceFactory.Instance.createGamePiece(GamePieces.L_RIGHT);
+                _gamePiece = GamePieceFactory.Instance.createGamePiece(genNextPiece());
+
+                //Line Complete Dectection
+                int lines = 0;
+                for(int i = 0; i < Constants.GRID_HEIGHT; i++)
+                {
+                    var row = from block in _blocks where block.location.Y == i select block;
+                    if(row.Count() == Constants.GRID_WIDITH)
+                    {
+                        lines++;
+                        _blocks.RemoveAll(block => block.location.Y == i);
+                        _blocks.ForEach(block =>
+                        {
+                            if (block.location.Y < i)
+                                block.moveDown();
+                        });
+                    }
+                }
+
+                //Game Over Dectection
+                bool gameover = _blocks.Any(block => block.location.Y < 0);
+                if (gameover)
+                {
+                    return -1;
+                }
+
+                return lines;
             }
-            //TODO check if a line is complete
+            return 0;
         }
 
         public void draw(Graphics g)
         {
             //Draw Background
-            g.FillRectangle(new SolidBrush(Constants.GAME_BACKGROUND_COLOR), _view);
+            LinearGradientBrush brush = new LinearGradientBrush(_view, Constants.GAME_BACKGROUND_COLOR, Constants.GAME_BACKGROUND_COLOR_2, 0.0f);
+            g.FillRectangle(brush, _view);
 
             int blockWidth = _view.Width / Constants.GRID_WIDITH;
             int blockHeight = _view.Height / Constants.GRID_HEIGHT;
@@ -57,7 +121,7 @@ namespace Tetris
             int centerY = (_view.Height - blockHeight * Constants.GRID_HEIGHT) / 2 + _view.Y;
 
             //Draw Grid
-            Pen pen = new Pen(Color.Blue);
+            /*Pen pen = new Pen(Color.Blue);
             for(int x = 0; x <= Constants.GRID_WIDITH; x++) {
                 int lineX = centerX + (x * blockWidth);
                 g.DrawLine(pen, lineX, centerY, lineX, centerY + (blockHeight * Constants.GRID_HEIGHT));
@@ -66,26 +130,11 @@ namespace Tetris
             for(int y = 0; y <= Constants.GRID_HEIGHT; y++) {
                 int lineY = centerY + (y * blockHeight);
                 g.DrawLine(pen, centerX, lineY, centerX + (blockWidth * Constants.GRID_WIDITH), lineY);
-            }
+            }*/
 
             //Resize and Reposition GameBlocks
             _blocks.ForEach(block =>
             {
-                var bounds = block.bounds;
-                bounds.Width = blockWidth;
-                bounds.Height = blockHeight;
-                bounds.X = block.location.X * blockWidth + centerX;
-                bounds.Y = block.location.Y * blockHeight + centerY;
-                block.bounds = bounds;
-                block.draw(g, false);
-            });
-
-            //Draw Game Piece
-            _gamePiece.getBlocks().ForEach(block =>
-            {
-                if (block.location.Y < 0)
-                    return;
-
                 var bounds = block.bounds;
                 bounds.Width = blockWidth;
                 bounds.Height = blockHeight;
@@ -111,7 +160,20 @@ namespace Tetris
                 block.draw(g, true);
             });
 
+            //Draw Game Piece
+            _gamePiece.getBlocks().ForEach(block =>
+            {
+                if (block.location.Y < 0)
+                    return;
 
+                var bounds = block.bounds;
+                bounds.Width = blockWidth;
+                bounds.Height = blockHeight;
+                bounds.X = block.location.X * blockWidth + centerX;
+                bounds.Y = block.location.Y * blockHeight + centerY;
+                block.bounds = bounds;
+                block.draw(g, false);
+            });
         }//draw method
 
         public void movePieceRight()
@@ -135,7 +197,7 @@ namespace Tetris
             gameTick();
         }
 
-        public void slamPiece()
+        public int slamPiece()
         {
             while (_gamePiece.canMoveDown(_blocks))
             {
@@ -143,7 +205,7 @@ namespace Tetris
             }
 
             _mainForm.PlaySlamSound();
-            gameTick(true);
+            return gameTick(true);
         }
 
         public bool rotatePiece()

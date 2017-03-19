@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
+    [Serializable]
     public class GameBlock
     {
         private Rectangle _bounds;
@@ -35,13 +36,18 @@ namespace Tetris
 
         public Color Color { get { return _color; } set { _color = value; } }
 
+        public void moveDown()
+        {
+            _location.Y++;
+        }
+
         public void draw(Graphics g, bool isGhost)
         {
-            //Test Code
             Color color = Color.FromArgb(isGhost ? 100 : 255, _color);
             SolidBrush brush = new SolidBrush(color);
 
             g.FillRectangle(brush, _bounds);
+            g.DrawRectangle(Pens.Black, _bounds);
 
             brush.Dispose();
         }

@@ -7,24 +7,12 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
+    [Serializable]
     public class TNumberComponent : TComponents<int>
     {
         public TNumberComponent(String title) : base(title)
         {
 
-        }
-
-        public int Detail
-        {
-            get
-            {
-                return _detail;
-            }
-
-            set
-            {
-                _detail = value;
-            }
         }
 
         public override void draw(Graphics g)

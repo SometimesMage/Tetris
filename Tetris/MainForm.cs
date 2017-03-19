@@ -8,10 +8,15 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Reflection;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Tetris {
     public partial class MainForm : Form {
@@ -33,6 +38,8 @@ namespace Tetris {
         private PauseDelegate _pauser;
         private ResumeDelegate _resumer;
 
+        private bool _gameover;
+
         public MainForm() {
 
             InitializeComponent();
@@ -44,9 +51,6 @@ namespace Tetris {
           
             this._resizeTimer = new Timer();
             _resizeTimer.Tick += resizeTimer_Tick;
-
-            /*_assembly = Assembly.GetExecutingAssembly();
-            _musicStream = _assembly.GetManifestResourceStream("Tetris.Sounds.Tetris.wav");*/
 
             _musicPlayer = new MediaPlayer();
             _pausePlayer = new MediaPlayer();
@@ -111,6 +115,14 @@ namespace Tetris {
             }
         }
 
+        public void gameOver()
+        {
+            this.mstripPause.Enabled = false;
+            this.mstripGo.Enabled = false;
+            this._gameover = true;
+            Invalidate();
+        }
+
         private void mainForm_Paint(object sender, PaintEventArgs e)
         {
             Rectangle gameView = this.ClientRectangle;
@@ -129,6 +141,19 @@ namespace Tetris {
         private void drawPause(Graphics g)
         {
             g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
+            string text;
+            if(_gameover)
+            {
+                text = "Game Over";
+            }
+            else
+            {
+                text = "Paused";
+            }
+
+            Tuple<Font, SizeF> tuple = ClientRectangle.adjustedFont(new Font(Constants.DEFAULT_FONT_TYPE, Constants.LARGEST_FONT_SIZE), text, g);
+            Rectangle point = new Rectangle(0, 0, Convert.ToInt32(tuple.Item2.Width), Convert.ToInt32(tuple.Item2.Height)).centerWithinBounds(ClientRectangle);
+            g.DrawString(text, tuple.Item1, System.Drawing.Brushes.Black, new PointF(point.X, point.Y));
         }
 
         private void mstripNew_Click(object sender, EventArgs e)
@@ -140,12 +165,30 @@ namespace Tetris {
 
         private void mstripSave_Click(object sender, EventArgs e)
         {
-            this.saveFileDialog.ShowDialog();
+            this.mstripPause_Click(sender, e);
+            DialogResult result = this.saveFileDialog.ShowDialog();
+            if(result == DialogResult.OK)
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
+                formatter.Serialize(stream, _game);
+                stream.Close();
+            }
         }
 
         private void mstripLoad_Click(object sender, EventArgs e)
         {
-            this.openFileDialog.ShowDialog();
+            this.mstripPause_Click(sender, e);
+            DialogResult result = this.openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                _game = (Game) formatter.Deserialize(stream);
+                _game.MainForm = this;
+                Invalidate();
+                stream.Close();
+            }
         }
 
         private void mstripExit_Click(object sender, EventArgs e)
@@ -155,9 +198,6 @@ namespace Tetris {
 
         private void mstripGo_Click(object sender, EventArgs e)
         {
-            //resume timer
-            //disable pause
-            //??disable 'game' mstrip??
             if (!this.mstripPause.Enabled)
             {
                 this.mstripGo.Enabled = false;
@@ -171,9 +211,6 @@ namespace Tetris {
 
         private void mstripPause_Click(object sender, EventArgs e)
         {
-            //pause the timer
-            //disable go
-            //??enable 'game' mstrip??
             if (!this.mstripGo.Enabled)
             {
                 this.mstripPause.Enabled = false;
@@ -252,10 +289,7 @@ namespace Tetris {
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.mstripPause.Enabled = false;
-            _pauser();
-            _musicPlayer.Stop();
-            Invalidate();
+            this.mstripPause_Click(sender, e);
 
             MessageBox.Show("Tetris v1.0.0\n" +
                 "Created by Daric Sage and Nick Peterson\n\n" +
@@ -269,10 +303,7 @@ namespace Tetris {
 
         private void controlsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.mstripPause.Enabled = false;
-            _pauser();
-            _musicPlayer.Stop();
-            Invalidate();
+            this.mstripPause_Click(sender, e);
 
             MessageBox.Show("Left Arrow: Moves game piece left.\n" +
                 "Right Arrow: Moves game piece right.\n" +

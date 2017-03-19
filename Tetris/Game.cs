@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.Timers;
 
 namespace Tetris {
     [Serializable]
@@ -34,6 +35,24 @@ namespace Tetris {
             /*_gameTimer.Elapsed += gameTick;
             _gameTimer.AutoReset = true;
             _gameTimer.Start();*/
+        }
+
+        public int Score {
+            get {
+                return _infoView.getScore();
+            }
+        }
+
+        public int Lines {
+            get {
+                return _infoView.getLines();
+            }
+        }
+
+        public int Level {
+            get {
+                return _infoView.getLevel();
+            }
         }
 
         public void makeTimer()
@@ -111,16 +130,6 @@ namespace Tetris {
             _infoView.draw(g);
         }
 
-        public void pauseGame()
-        {
-            _gameTimer.Stop();
-        }
-
-        public void resumeGame()
-        {
-            _gameTimer.Start();
-        }
-
         public void rotatePiece()
         {
             if (!_gameOver && _playView.rotatePiece())
@@ -169,8 +178,9 @@ namespace Tetris {
         {
             if (!_gameOver)
             {
-                int result = _playView.slamPiece();
-                postGameTick(result);
+                Tuple<int, int> result = _playView.slamPiece();
+                postGameTick(result.Item1);
+                _infoView.addToScore(result.Item2 * 2);
                 _mainForm.Invalidate();
             }
 
@@ -194,6 +204,16 @@ namespace Tetris {
             set {
                 _mainForm = value;
                 _playView.MainForm = value;
+            }
+        }
+
+        public System.Timers.Timer GameTimer {
+            get {
+                return _gameTimer;
+            }
+
+            set {
+                _gameTimer = value;
             }
         }
 

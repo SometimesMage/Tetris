@@ -29,7 +29,8 @@ namespace Tetris
             SizeF detailSize = detailTuple.Item2;
 
             //center title horizontally
-            g.DrawString(_title, titleFont, Brushes.Purple, _box.X + ((_box.Width - titleSize.Width) / 2), _box.Y);
+
+            g.DrawString(_title, titleFont, Constants.DEFAULT_BRUSH_COLOR, _box.X + ((_box.Width - titleSize.Width) / 2), _box.Y);
 
             //center detail horizontally and vertically
             Rectangle rectBounds = (new Rectangle(_box.X, Convert.ToInt32(titleSize.Height) + _box.Y,

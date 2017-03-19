@@ -135,6 +135,8 @@ namespace Tetris
             //Resize and Reposition GameBlocks
             _blocks.ForEach(block =>
             {
+                if (block.location.Y < 0)
+                    return;
                 var bounds = block.bounds;
                 bounds.Width = blockWidth;
                 bounds.Height = blockHeight;
@@ -145,7 +147,7 @@ namespace Tetris
             });
 
             //Draw Ghost Game Piece
-            GamePiece ghost = _gamePiece.createGhostPiece(_blocks, _gamePiece.pivot.Color);
+            GamePiece ghost = _gamePiece.createGhostPiece(_blocks);
             ghost.getBlocks().ForEach(block =>
             {
                 if (block.location.Y < 0)
@@ -197,16 +199,19 @@ namespace Tetris
             gameTick();
         }
 
-        public int slamPiece()
+        public Tuple<int, int> slamPiece()
         {
             //TODO scoring with regards to slamming
+            int slamLines = 0;
             while (_gamePiece.canMoveDown(_blocks))
             {
                 _gamePiece.moveDown();
+                slamLines++;
             }
 
             _mainForm.PlaySlamSound();
-            return gameTick(true);
+            int lines = gameTick(true);
+            return new Tuple<int, int>(lines, slamLines);
         }
 
         public bool rotatePiece()

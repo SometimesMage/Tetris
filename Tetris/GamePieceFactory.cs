@@ -26,85 +26,85 @@ namespace Tetris
             {
 
                 case GamePieces.L_RIGHT:
-                    b1 = new GameBlock(location: new Point(centerBlock, -1));
+                    b1 = new GameBlock(location: new Point(centerBlock, -3));
                     b1.Color = Constants.L_RIGHT_PIECE_COLOR;
-                    b2 = new GameBlock(location: new Point(centerBlock, 0));
+                    b2 = new GameBlock(location: new Point(centerBlock, -2));
                     b2.Color = Constants.L_RIGHT_PIECE_COLOR;
-                    b3 = new GameBlock(location: new Point(centerBlock, 1));
+                    b3 = new GameBlock(location: new Point(centerBlock, -1));
                     b3.Color = Constants.L_RIGHT_PIECE_COLOR;
-                    b4 = new GameBlock(location: new Point(centerBlock + 1, 1));
+                    b4 = new GameBlock(location: new Point(centerBlock + 1, -1));
                     b4.Color = Constants.L_RIGHT_PIECE_COLOR;
 
                     return new GamePiece(new GameBlock[]{b1, b2, b3, b4}, b2);
 
                 case GamePieces.L_LEFT:
-                    b1 = new GameBlock(location: new Point(centerBlock, -1));
+                    b1 = new GameBlock(location: new Point(centerBlock, -3));
                     b1.Color = Constants.L_LEFT_PIECE_COLOR;
-                    b2 = new GameBlock(location: new Point(centerBlock, 0));
+                    b2 = new GameBlock(location: new Point(centerBlock, -2));
                     b2.Color = Constants.L_LEFT_PIECE_COLOR;
-                    b3 = new GameBlock(location: new Point(centerBlock, 1));
+                    b3 = new GameBlock(location: new Point(centerBlock, -1));
                     b3.Color = Constants.L_LEFT_PIECE_COLOR;
-                    b4 = new GameBlock(location: new Point(centerBlock + 1, -1));
+                    b4 = new GameBlock(location: new Point(centerBlock + 1, -3));
                     b4.Color = Constants.L_LEFT_PIECE_COLOR;
 
                     return new GamePiece(new GameBlock[] { b1, b2, b3, b4 }, b2);
 
                 case GamePieces.BLOCK:
-                    b1 = new GameBlock(location: new Point(centerBlock, 0));
+                    b1 = new GameBlock(location: new Point(centerBlock, -1));
                     b1.Color = Constants.BLOCK_PIECE_COLOR;
-                    b2 = new GameBlock(location: new Point(centerBlock, -1));
+                    b2 = new GameBlock(location: new Point(centerBlock, -2));
                     b2.Color = Constants.BLOCK_PIECE_COLOR;
-                    b3 = new GameBlock(location: new Point(centerBlock + 1, -1));
+                    b3 = new GameBlock(location: new Point(centerBlock + 1, -2));
                     b3.Color = Constants.BLOCK_PIECE_COLOR;
-                    b4 = new GameBlock(location: new Point(centerBlock + 1, 0));
+                    b4 = new GameBlock(location: new Point(centerBlock + 1, -1));
                     b4.Color = Constants.BLOCK_PIECE_COLOR;
 
-                    return new GamePiece(new GameBlock[] { b1, b2, b3, b4 }, b2);
+                    return new GamePiece(new GameBlock[] { b1, b2, b3, b4 }, null);
 
                 case GamePieces.T:
-                    b1 = new GameBlock(location: new Point(centerBlock, 0));
+                    b1 = new GameBlock(location: new Point(centerBlock, -1));
                     b1.Color = Constants.T_PIECE_COLOR;
-                    b2 = new GameBlock(location: new Point(centerBlock -1, 0));
+                    b2 = new GameBlock(location: new Point(centerBlock -1, -1));
                     b2.Color = Constants.T_PIECE_COLOR;
-                    b3 = new GameBlock(location: new Point(centerBlock + 1, 0));
+                    b3 = new GameBlock(location: new Point(centerBlock + 1, -1));
                     b3.Color = Constants.T_PIECE_COLOR;
-                    b4 = new GameBlock(location: new Point(centerBlock, -1));
+                    b4 = new GameBlock(location: new Point(centerBlock, -2));
                     b4.Color = Constants.T_PIECE_COLOR;
 
                     return new GamePiece(new GameBlock[] { b1, b2, b3, b4 }, b1);
 
                 case GamePieces.LINE:
-                    b1 = new GameBlock(location: new Point(centerBlock, -1));
+                    b1 = new GameBlock(location: new Point(centerBlock, -4));
                     b1.Color = Constants.LINE_GAME_PIECE_COLOR;
-                    b2 = new GameBlock(location: new Point(centerBlock, 0));
+                    b2 = new GameBlock(location: new Point(centerBlock, -3));
                     b2.Color = Constants.LINE_GAME_PIECE_COLOR;
-                    b3 = new GameBlock(location: new Point(centerBlock, + 1));
+                    b3 = new GameBlock(location: new Point(centerBlock, + -2));
                     b3.Color = Constants.LINE_GAME_PIECE_COLOR;
-                    b4 = new GameBlock(location: new Point(centerBlock, + 2));
+                    b4 = new GameBlock(location: new Point(centerBlock, + -1));
                     b4.Color = Constants.LINE_GAME_PIECE_COLOR;
 
                     return new GamePiece(new GameBlock[] { b1, b2, b3, b4 }, b2);
 
                 case GamePieces.CURVE_LEFT:
-                    b1 = new GameBlock(location: new Point(centerBlock, -1));
+                    b1 = new GameBlock(location: new Point(centerBlock, -3));
                     b1.Color = Constants.CURVE_LEFT_PIECE_COLOR;
-                    b2 = new GameBlock(location: new Point(centerBlock, 0));
+                    b2 = new GameBlock(location: new Point(centerBlock, -2));
                     b2.Color = Constants.CURVE_LEFT_PIECE_COLOR;
-                    b3 = new GameBlock(location: new Point(centerBlock - 1, 0));
+                    b3 = new GameBlock(location: new Point(centerBlock - 1, -2));
                     b3.Color = Constants.CURVE_LEFT_PIECE_COLOR;
-                    b4 = new GameBlock(location: new Point(centerBlock - 1, +1));
+                    b4 = new GameBlock(location: new Point(centerBlock - 1, -1));
                     b4.Color = Constants.CURVE_LEFT_PIECE_COLOR;
 
                     return new GamePiece(new GameBlock[] { b1, b2, b3, b4 }, b2);
 
                 case GamePieces.CURVE_RIGHT:
-                    b1 = new GameBlock(location: new Point(centerBlock, -1));
+                    b1 = new GameBlock(location: new Point(centerBlock, -3));
                     b1.Color = Constants.CURVE_RIGHT_PEICE_COLOR;
-                    b2 = new GameBlock(location: new Point(centerBlock, 0));
+                    b2 = new GameBlock(location: new Point(centerBlock, -2));
                     b2.Color = Constants.CURVE_RIGHT_PEICE_COLOR;
-                    b3 = new GameBlock(location: new Point(centerBlock + 1, 0));
+                    b3 = new GameBlock(location: new Point(centerBlock + 1, -2));
                     b3.Color = Constants.CURVE_RIGHT_PEICE_COLOR;
-                    b4 = new GameBlock(location: new Point(centerBlock + 1, +1));
+                    b4 = new GameBlock(location: new Point(centerBlock + 1, -1));
                     b4.Color = Constants.CURVE_RIGHT_PEICE_COLOR;
 
                     return new GamePiece(new GameBlock[] { b1, b2, b3, b4 }, b2);

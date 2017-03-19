@@ -126,4 +126,29 @@
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>483, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAABILAAASCwAAAAAAAAAA
+        AAD/////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////3//f/8//z//P/8//z//P/8//z//P/8//z/
+        /P/8//z//P/8//z//P/8//z//////////////////////////////f////z////8/////P////z////8
+        /////P////z////8/////P////z///////////////////3//f//////hNuE/0PdQ/9Q3lD/Tt5O/07f
+        Tv9O007/TtxO/07eTv9O3k7/Tt9O/07WTv/////////////////8//z///z//07fTv8A8wD/A/ED/wDx
+        AP8A9AD/AN0A/wDuAP8A8gD/APEA/wD0AP8A5AD//////////////////P/8///8//9Q31D/APEA/wfv
+        B/8D7wP/A/ID/wPdA/8D7QP/A/AD/wPvA/8D8gP/A+MD//v++//7/vv/+/77//j/+P///P//Td5N/wDx
+        AP8D7wP/AO8A/wDxAP8B3QH/BO0E/wPwA/8D7wP/A/ID/wPjA//////////////////8//z///z//07g
+        Tv8A9AD/A/ID/wDyAP8A9AD/AN8A/wDuAP8A8gD/APEA/wD0AP8A4wD/mdyZ/5njmf+Z4pn/l+OX/6Lg
+        ov8vyS//ANsA/wLZAv8B2QH/ANsA/xfJF/9S21L/Td9N/07eTv9O307/TtZO/wDYAP8A7wD/AOsA/wDs
+        AP8A6QD/ANkA/wDuAP8A7AD/A+wD/wDuAP9L3Ev///n///z9/P///P////z////8//8E3gT/BPUE/wTw
+        BP8E8gT/BO4E/wHdAf8A8wD/APAA/wPxA/8A8gD/SeBJ///8///5//n//P/8//z//P/8//z/ANwA/wDz
+        AP8A7wD/APAA/wDsAP8A3AD/APEA/wDvAP8D7wP/APEA/0rfSv///P///P/8/////////////////wDg
+        AP8A9wD/APMA/wD0AP8A8AD/AN8A/wD1AP8A8wD/A/MD/wD1AP9L4Uv///z///z//P//////////////
+        //8AzQD/AOIA/wDeAP8A4AD/ANwA/wDMAP8A4QD/AN8A/wPfA/8A3wD/S9VL///9///8//z/////////
+        ////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAA==
+</value>
+  </data>
 </root>

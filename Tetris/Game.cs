@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.Timers;
 
 namespace Tetris {
     [Serializable]
@@ -16,6 +17,7 @@ namespace Tetris {
         private Rectangle _view;
         private GamePlayView _playView;
         private GameInfoView _infoView;
+        private bool _gameOver;
         [NonSerialized]
         private System.Timers.Timer _gameTimer; 
 
@@ -28,11 +30,29 @@ namespace Tetris {
             _view = new Rectangle();
             _playView = new GamePlayView(mainForm);
             _infoView = new GameInfoView(this);
-
+            _gameOver = false;
             makeTimer();
             /*_gameTimer.Elapsed += gameTick;
             _gameTimer.AutoReset = true;
             _gameTimer.Start();*/
+        }
+
+        public int Score {
+            get {
+                return _infoView.getScore();
+            }
+        }
+
+        public int Lines {
+            get {
+                return _infoView.getLines();
+            }
+        }
+
+        public int Level {
+            get {
+                return _infoView.getLevel();
+            }
         }
 
         public void makeTimer()
@@ -73,6 +93,7 @@ namespace Tetris {
             {
                 _gameTimer.Stop();
                 _mainForm.gameOver();
+                _gameOver = true;
             }
             else if(tickResult > 0)
             {
@@ -109,19 +130,9 @@ namespace Tetris {
             _infoView.draw(g);
         }
 
-        public void pauseGame()
-        {
-            _gameTimer.Stop();
-        }
-
-        public void resumeGame()
-        {
-            _gameTimer.Start();
-        }
-
         public void rotatePiece()
         {
-            if (_playView.rotatePiece())
+            if (!_gameOver && _playView.rotatePiece())
             {
                 _mainForm.PlayRotateSound();
                 _mainForm.Invalidate();
@@ -130,35 +141,48 @@ namespace Tetris {
 
         public void movePieceRight()
         {
-            _playView.movePieceRight();
-            _mainForm.Invalidate();
+            if (!_gameOver)
+            {
+                _playView.movePieceRight();
+                _mainForm.Invalidate();
+            }
         }
 
         public void movePieceLeft()
         {
-            _playView.movePieceLeft();
-            _mainForm.Invalidate();
+            if (!_gameOver)
+            {
+                _playView.movePieceLeft();
+                _mainForm.Invalidate();
+            }
         }
 
         public void movePieceDown()
         {
-            _playView.movePieceDown();
+            if (!_gameOver)
+            {
+                _playView.movePieceDown();
 
-            //test code>>>
+                //test code>>>
 
-            _infoView.addToScore(1);
+                _infoView.addToScore(1);
 
-            //<<<
-            _mainForm.Invalidate();
-            _gameTimer.Stop();
-            _gameTimer.Start();
+                //<<<
+                _mainForm.Invalidate();
+                _gameTimer.Stop();
+                _gameTimer.Start();
+            }
         }
 
         public void slamPiece()
         {
-            int result = _playView.slamPiece();
-            postGameTick(result);
-            _mainForm.Invalidate();
+            if (!_gameOver)
+            {
+                Tuple<int, int> result = _playView.slamPiece();
+                postGameTick(result.Item1);
+                _infoView.addToScore(result.Item2 * 2);
+                _mainForm.Invalidate();
+            }
 
         }
 
@@ -180,6 +204,16 @@ namespace Tetris {
             set {
                 _mainForm = value;
                 _playView.MainForm = value;
+            }
+        }
+
+        public System.Timers.Timer GameTimer {
+            get {
+                return _gameTimer;
+            }
+
+            set {
+                _gameTimer = value;
             }
         }
 

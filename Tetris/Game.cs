@@ -204,6 +204,7 @@ namespace Tetris {
             set {
                 _mainForm = value;
                 _playView.MainForm = value;
+                _infoView.MainForm = value;
             }
         }
 
@@ -214,6 +215,16 @@ namespace Tetris {
 
             set {
                 _gameTimer = value;
+            }
+        }
+
+        public bool GameOver {
+            get {
+                return _gameOver;
+            }
+
+            set {
+                _gameOver = value;
             }
         }
 

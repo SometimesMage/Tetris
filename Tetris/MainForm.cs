@@ -139,10 +139,19 @@ namespace Tetris {
         private void drawPause(Graphics g)
         {
             g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(180, 180, 180, 180)), ClientRectangle);
+            string text;
             if(_gameover)
             {
-                g.DrawString("Game Over", new Font(Constants.DEFAULT_FONT_TYPE, Constants.LARGEST_FONT_SIZE), System.Drawing.Brushes.Black, new PointF(50, 50));
+                text = "Game Over";
             }
+            else
+            {
+                text = "Paused";
+            }
+
+            Tuple<Font, SizeF> tuple = ClientRectangle.adjustedFont(new Font(Constants.DEFAULT_FONT_TYPE, Constants.LARGEST_FONT_SIZE), text, g);
+            Rectangle point = new Rectangle(0, 0, Convert.ToInt32(tuple.Item2.Width), Convert.ToInt32(tuple.Item2.Height)).centerWithinBounds(ClientRectangle);
+            g.DrawString(text, tuple.Item1, System.Drawing.Brushes.Black, new PointF(point.X, point.Y));
         }
 
         private void mstripNew_Click(object sender, EventArgs e)

@@ -9,24 +9,28 @@ namespace Tetris {
     [Serializable]
     public class GameInfoView {
 
+        private delegate void TimerDel(int level);
+
         private Rectangle _view;
+
+        private TimerDel timerNotifier;
         
         private TComponents<GamePieces> _nextBlock;
         private TComponents<int> _score;
         private TComponents<int> _lines;
         private TComponents<int> _level;
-
-        //IDEA: a list of TComponents, escpecially useful for drawing to iterate through and draw each
-
-
-        public GameInfoView(Rectangle view = new Rectangle()) {
+        
+        public GameInfoView(Game game, Rectangle view = new Rectangle()) {
             _view = view;
             
             _nextBlock = new TNextBlockComponent();
             _score = new TNumberComponent("Score");
             _lines = new TNumberComponent("Lines");
             _level = new TNumberComponent("Level");
+
             _level.detail = 1;
+
+            timerNotifier = game.updateTimer;
         }
 
 
@@ -40,6 +44,11 @@ namespace Tetris {
             }
         }
 
+        public int getLevel()
+        {
+            return _level.detail;
+        }
+
         public void addNextBlock(GamePieces nextPiece)
         {
             _nextBlock.detail = nextPiece;
@@ -49,7 +58,7 @@ namespace Tetris {
         {
             if(scoreToAdd > 0)
             {
-              _score.detail += scoreToAdd;
+              _score.detail += scoreToAdd * _level.detail;
             }
         }
 
@@ -58,7 +67,7 @@ namespace Tetris {
             if(linesToAdd > 0)
             {
                 int combo = linesToAdd - Constants.GAME_COMBO_LINES;
-                int score = (linesToAdd * Constants.GAME_LINE_SCORE + combo * Constants.GAME_COMBO_SCORE_BONUS) * _level.detail;
+                int score = (linesToAdd * Constants.GAME_LINE_SCORE + combo * Constants.GAME_COMBO_SCORE_BONUS);
 
                 if (_lines.detail + linesToAdd >= Constants.GAME_LINES_PER_LEVEL)
                 {
@@ -70,9 +79,10 @@ namespace Tetris {
             }
         }
 
-        private void addToLevel()
+        public void addToLevel()
         {
             _level.detail += (Constants.GAME_LEVEL_INCREMENT);
+            timerNotifier(_level.detail);
         }
 
         public void draw(Graphics g) {

@@ -35,6 +35,7 @@ namespace Tetris {
         public static readonly Color BACKGROUND_COLOR = Color.FromArgb(0, 0, 0);
         public static readonly Color GAME_BACKGROUND_COLOR = Color.SkyBlue;
         public static readonly Color GAME_BACKGROUND_COLOR_2 = Color.Blue;
+        public static readonly Brush DEFAULT_BRUSH_COLOR = Brushes.Purple;
         public static readonly Color LINE_GAME_PIECE_COLOR = Color.FromArgb(0, 240, 240);
         public static readonly Color L_LEFT_PIECE_COLOR = Color.FromArgb(0, 0, 240);
         public static readonly Color L_RIGHT_PIECE_COLOR = Color.FromArgb(240, 160, 0);

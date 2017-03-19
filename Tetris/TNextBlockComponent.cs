@@ -21,11 +21,9 @@ namespace Tetris
             Tuple<Font, SizeF> titleTuple = _box.adjustedFont(new Font(Constants.DEFAULT_FONT_TYPE, Constants.LARGEST_FONT_SIZE), titleString, g);
             Font titleFont = titleTuple.Item1;
             SizeF titleSize = titleTuple.Item2;
-
-            //where should centering math be put?? this looks atrocious>>>
-            g.DrawString(_title, titleFont, Brushes.Purple, _box.X + ((_box.Width - titleSize.Width) / 2), _box.Y);
-            //<<<
-
+            
+            //center title horizontally
+            g.DrawString(_title, titleFont, Constants.DEFAULT_BRUSH_COLOR, _box.X + ((_box.Width - titleSize.Width) / 2), _box.Y);
         }
     }
 }

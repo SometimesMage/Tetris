@@ -13,10 +13,12 @@ namespace Tetris
         private Rectangle _view;
         private List<GameBlock> _blocks;
         private GamePiece _gamePiece;
+        private MainForm _mainForm;
 
-        public GamePlayView(Rectangle view = new Rectangle())
+        public GamePlayView(MainForm mainForm, Rectangle view = new Rectangle())
         {
             _view = view;
+            _mainForm = mainForm;
             _blocks = new List<GameBlock>(Constants.GRID_WIDITH * Constants.GRID_HEIGHT);
             _gamePiece = GamePieceFactory.Instance.createGamePiece(GamePieces.L_RIGHT);
         }
@@ -28,11 +30,20 @@ namespace Tetris
             set { _view = value; }
         }
 
-        public void gameTick()
+        public void gameTick(bool slam = false)
         {
-            //TODO check if game piece can move down
+            if (_gamePiece.canMoveDown(_blocks))
+            {
+                _gamePiece.moveDown();
+            }
+            else
+            {
+                if(!slam)
+                    _mainForm.PlayBlockSound();
+                _blocks.AddRange(_gamePiece.getBlocks());
+                _gamePiece = GamePieceFactory.Instance.createGamePiece(GamePieces.L_RIGHT);
+            }
             //TODO check if a line is complete
-            _gamePiece.moveDown();
         }
 
         public void draw(Graphics g)
@@ -66,7 +77,7 @@ namespace Tetris
                 bounds.X = block.location.X * blockWidth + centerX;
                 bounds.Y = block.location.Y * blockHeight + centerY;
                 block.bounds = bounds;
-                block.draw(g);
+                block.draw(g, false);
             });
 
             //Draw Game Piece
@@ -81,9 +92,70 @@ namespace Tetris
                 bounds.X = block.location.X * blockWidth + centerX;
                 bounds.Y = block.location.Y * blockHeight + centerY;
                 block.bounds = bounds;
-                block.draw(g);
+                block.draw(g, false);
             });
+
+            //Draw Ghost Game Piece
+            GamePiece ghost = _gamePiece.createGhostPiece(_blocks);
+            ghost.getBlocks().ForEach(block =>
+            {
+                if (block.location.Y < 0)
+                    return;
+
+                var bounds = block.bounds;
+                bounds.Width = blockWidth;
+                bounds.Height = blockHeight;
+                bounds.X = block.location.X * blockWidth + centerX;
+                bounds.Y = block.location.Y * blockHeight + centerY;
+                block.bounds = bounds;
+                block.draw(g, true);
+            });
+
+
         }//draw method
+
+        public void movePieceRight()
+        {
+            if(_gamePiece.canMoveRight(_blocks))
+            {
+                _gamePiece.moveRight();
+            }
+        }
+
+        public void movePieceLeft()
+        {
+            if(_gamePiece.canMoveLeft(_blocks))
+            {
+                _gamePiece.moveLeft();
+            }
+        }
+
+        public void movePieceDown()
+        {
+            gameTick();
+        }
+
+        public void slamPiece()
+        {
+            while (_gamePiece.canMoveDown(_blocks))
+            {
+                _gamePiece.moveDown();
+            }
+
+            _mainForm.PlaySlamSound();
+            gameTick(true);
+        }
+
+        public bool rotatePiece()
+        {
+            if (_gamePiece.canRotate(_blocks))
+            {
+                _gamePiece.rotate();
+                return true;
+            }
+
+            return false;
+        }
 
     }//gameplayview class
 }//tetris namespace

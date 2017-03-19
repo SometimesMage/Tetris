@@ -34,6 +34,7 @@ namespace Tetris {
         //COLORS
         public static readonly Color BACKGROUND_COLOR = Color.FromArgb(255, 0, 0, 0);
         public static readonly Color GAME_BACKGROUND_COLOR = Color.AliceBlue;
+        public static readonly Brush DEFAULT_BRUSH_COLOR = Brushes.Purple;
 
         //FONT
         public static readonly int LARGEST_FONT_SIZE = 54;

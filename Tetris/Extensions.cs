@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tetris {
+    //Created by Nick Peterson and Daric Sage
+    //Features for Possible Extra Credit Include:
+    //Dynamically resizable
+    //Ghost Game Piece
     public static class Extensions {
         public static Rectangle addMargin(this Rectangle rect, int margin) {
             rect.X += margin;

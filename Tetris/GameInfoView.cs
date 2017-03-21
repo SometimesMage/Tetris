@@ -6,11 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tetris {
+    //Created by Nick Peterson and Daric Sage
+    //Features for Possible Extra Credit Include:
+    //Dynamically resizable
+    //Ghost Game Piece
     [Serializable]
     public class GameInfoView {
 
         private delegate void TimerDel(int level);
 
+        [NonSerialized]
+        private MainForm _mainForm;
         private Rectangle _view;
 
         private TimerDel timerNotifier;
@@ -31,6 +37,7 @@ namespace Tetris {
             _level.detail = 1;
 
             timerNotifier = game.updateTimer;
+            _mainForm = game.MainForm;
         }
 
 
@@ -41,6 +48,16 @@ namespace Tetris {
 
             set {
                 _view = value;
+            }
+        }
+
+        public MainForm MainForm {
+            get {
+                return _mainForm;
+            }
+
+            set {
+                _mainForm = value;
             }
         }
 
@@ -86,6 +103,7 @@ namespace Tetris {
                 _lines.detail = (_lines.detail + linesToAdd) % 10;
 
                 addToScore(score);
+                _mainForm.PlayLineSound();
             }
         }
 
@@ -93,6 +111,7 @@ namespace Tetris {
         {
             _level.detail += (Constants.GAME_LEVEL_INCREMENT);
             timerNotifier(_level.detail);
+            _mainForm.PlayLeveUpSound();
         }
 
         public void draw(Graphics g) {

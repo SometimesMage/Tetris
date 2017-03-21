@@ -19,6 +19,10 @@ using System.Xml;
 using System.Xml.Serialization;
 
 namespace Tetris {
+    //Created by Nick Peterson and Daric Sage
+    //Features for Possible Extra Credit Include:
+    //Dynamically resizable
+    //Ghost Game Piece
     public partial class MainForm : Form {
 
         private delegate void SoundCallbackDelegate();
@@ -29,6 +33,9 @@ namespace Tetris {
         private MediaPlayer _rotatePlayer;
         private MediaPlayer _blockPlayer;
         private MediaPlayer _slamPlayer;
+        private MediaPlayer _levelUpPlayer;
+        private MediaPlayer _gameOverPlayer;
+        private MediaPlayer _linePlayer;
 
         private Game _game;
         private Timer _resizeTimer;
@@ -54,12 +61,18 @@ namespace Tetris {
             _rotatePlayer = new MediaPlayer();
             _blockPlayer = new MediaPlayer();
             _slamPlayer = new MediaPlayer();
+            _levelUpPlayer = new MediaPlayer();
+            _gameOverPlayer = new MediaPlayer();
+            _linePlayer = new MediaPlayer();
             _musicPlayer.Open(new Uri(@"Sounds\Tetris.wav", UriKind.Relative));
             _pausePlayer.Open(new Uri(@"Sounds\pause.wav", UriKind.Relative));
             _unpausePlayer.Open(new Uri(@"Sounds\unpause.wav", UriKind.Relative));
             _rotatePlayer.Open(new Uri(@"Sounds\rotate.wav", UriKind.Relative));
             _blockPlayer.Open(new Uri(@"Sounds\block.wav", UriKind.Relative));
             _slamPlayer.Open(new Uri(@"Sounds\slam.wav", UriKind.Relative));
+            _levelUpPlayer.Open(new Uri(@"Sounds\level-up.wav", UriKind.Relative));
+            _gameOverPlayer.Open(new Uri(@"Sounds\game-over.wav", UriKind.Relative));
+            _linePlayer.Open(new Uri(@"Sounds\line.wav", UriKind.Relative));
 
             _musicPlayer.MediaEnded += _musicPlayer_MediaEnded;
             _pausePlayer.MediaEnded += mediaEnded;
@@ -67,8 +80,14 @@ namespace Tetris {
             _rotatePlayer.MediaEnded += mediaEnded;
             _blockPlayer.MediaEnded += mediaEnded;
             _slamPlayer.MediaEnded += mediaEnded;
+            _levelUpPlayer.MediaEnded += mediaEnded;
+            _gameOverPlayer.MediaEnded += mediaEnded;
+            _linePlayer.MediaEnded += mediaEnded;
 
-            _musicPlayer.Volume = 0.3;
+            _musicPlayer.Volume = 0.2;
+            _linePlayer.Volume = 0.3;
+            _levelUpPlayer.Volume = 1.0;
+
             _musicPlayer.Play();
 
             //Get Highscore
@@ -82,11 +101,37 @@ namespace Tetris {
 
         }
 
+        public void StopMusic()
+        {
+            if (mstripTop.InvokeRequired)
+            {
+                SoundCallbackDelegate d = new SoundCallbackDelegate(StopMusic);
+                this.Invoke(d);
+            }
+            else
+            {
+                _musicPlayer.Stop();
+            }
+        }
+
+        public void PlayGameOverSound()
+        {
+            if (mstripTop.InvokeRequired)
+            {
+                SoundCallbackDelegate d = new SoundCallbackDelegate(PlayGameOverSound);
+                this.Invoke(d);
+            }
+            else
+            {
+                _gameOverPlayer.Play();
+            }
+        }
+
         public void PlayRotateSound()
         {
             if (mstripTop.InvokeRequired)
             {
-                SoundCallbackDelegate d = new SoundCallbackDelegate(PlayBlockSound);
+                SoundCallbackDelegate d = new SoundCallbackDelegate(PlayRotateSound);
                 this.Invoke(d);
             }
             else
@@ -112,7 +157,7 @@ namespace Tetris {
         {
             if (mstripTop.InvokeRequired)
             {
-                SoundCallbackDelegate d = new SoundCallbackDelegate(PlayBlockSound);
+                SoundCallbackDelegate d = new SoundCallbackDelegate(PlaySlamSound);
                 this.Invoke(d);
             }
             else
@@ -121,11 +166,39 @@ namespace Tetris {
             }
         }
 
+        public void PlayLeveUpSound()
+        {
+            if (mstripTop.InvokeRequired)
+            {
+                SoundCallbackDelegate d = new SoundCallbackDelegate(PlayLeveUpSound);
+                this.Invoke(d);
+            }
+            else
+            {
+                _levelUpPlayer.Play();
+            }
+        }
+
+        public void PlayLineSound()
+        {
+            if (mstripTop.InvokeRequired)
+            {
+                SoundCallbackDelegate d = new SoundCallbackDelegate(PlayLineSound);
+                this.Invoke(d);
+            }
+            else
+            {
+                _linePlayer.Play();
+            }
+        }
+
         public void gameOver()
         {
             this.mstripPause.Enabled = false;
             this.mstripGo.Enabled = false;
             this._gameover = true;
+            StopMusic();
+            PlayGameOverSound();
             Invalidate();
             
 
@@ -186,10 +259,8 @@ namespace Tetris {
             _game = new Game(this);
             mstripPause.Enabled = true;
             mstripGo.Enabled = false;
+            _musicPlayer.Play();
             _gameover = false;
-            //start game and setup
-            //??disable the 'game' mstrip??
-            //enable 'pause' mstrip
         }
 
         private void mstripSave_Click(object sender, EventArgs e)
@@ -217,6 +288,12 @@ namespace Tetris {
                 _game.MainForm = this;
                 _game.makeTimer();
                 _game.GameTimer.Stop();
+                _gameover = _game.GameOver;
+                if(_gameover)
+                {
+                    mstripPause.Enabled = false;
+                    mstripGo.Enabled = false;
+                }
                 Invalidate();
                 stream.Close();
             }
@@ -229,7 +306,12 @@ namespace Tetris {
 
         private void mstripGo_Click(object sender, EventArgs e)
         {
-            if (!this.mstripPause.Enabled)
+            if(_gameover)
+            {
+                this.mstripGo.Enabled = false;
+            }
+
+            if (!this.mstripPause.Enabled && !_gameover)
             {
                 this.mstripGo.Enabled = false;
                 this.mstripPause.Enabled = true;
@@ -242,7 +324,12 @@ namespace Tetris {
 
         private void mstripPause_Click(object sender, EventArgs e)
         {
-            if (!this.mstripGo.Enabled)
+            if(_gameover)
+            {
+                this.mstripPause.Enabled = false;
+            }
+
+            if (!this.mstripGo.Enabled && !_gameover)
             {
                 this.mstripPause.Enabled = false;
                 this.mstripGo.Enabled = true;

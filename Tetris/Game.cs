@@ -10,6 +10,10 @@ using System.Xml.Serialization;
 using System.Timers;
 
 namespace Tetris {
+    //Created by Nick Peterson and Daric Sage
+    //Features for Possible Extra Credit Include:
+    //Dynamically resizable
+    //Ghost Game Piece
     [Serializable]
     public class Game {
         [NonSerialized]
@@ -204,6 +208,7 @@ namespace Tetris {
             set {
                 _mainForm = value;
                 _playView.MainForm = value;
+                _infoView.MainForm = value;
             }
         }
 
@@ -214,6 +219,16 @@ namespace Tetris {
 
             set {
                 _gameTimer = value;
+            }
+        }
+
+        public bool GameOver {
+            get {
+                return _gameOver;
+            }
+
+            set {
+                _gameOver = value;
             }
         }
 

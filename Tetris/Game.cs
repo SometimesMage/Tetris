@@ -10,6 +10,10 @@ using System.Xml.Serialization;
 using System.Timers;
 
 namespace Tetris {
+    //Created by Nick Peterson and Daric Sage
+    //Features for Possible Extra Credit Include:
+    //Dynamically resizable
+    //Ghost Game Piece
     [Serializable]
     public class Game {
         [NonSerialized]

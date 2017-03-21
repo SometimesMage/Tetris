@@ -19,6 +19,10 @@ using System.Xml;
 using System.Xml.Serialization;
 
 namespace Tetris {
+    //Created by Nick Peterson and Daric Sage
+    //Features for Possible Extra Credit Include:
+    //Dynamically resizable
+    //Ghost Game Piece
     public partial class MainForm : Form {
 
         private delegate void SoundCallbackDelegate();
@@ -285,6 +289,11 @@ namespace Tetris {
                 _game.makeTimer();
                 _game.GameTimer.Stop();
                 _gameover = _game.GameOver;
+                if(_gameover)
+                {
+                    mstripPause.Enabled = false;
+                    mstripGo.Enabled = false;
+                }
                 Invalidate();
                 stream.Close();
             }
@@ -297,7 +306,12 @@ namespace Tetris {
 
         private void mstripGo_Click(object sender, EventArgs e)
         {
-            if (!this.mstripPause.Enabled)
+            if(_gameover)
+            {
+                this.mstripGo.Enabled = false;
+            }
+
+            if (!this.mstripPause.Enabled && !_gameover)
             {
                 this.mstripGo.Enabled = false;
                 this.mstripPause.Enabled = true;
@@ -310,7 +324,12 @@ namespace Tetris {
 
         private void mstripPause_Click(object sender, EventArgs e)
         {
-            if (!this.mstripGo.Enabled)
+            if(_gameover)
+            {
+                this.mstripPause.Enabled = false;
+            }
+
+            if (!this.mstripGo.Enabled && !_gameover)
             {
                 this.mstripPause.Enabled = false;
                 this.mstripGo.Enabled = true;

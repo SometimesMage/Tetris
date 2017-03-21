@@ -8,6 +8,10 @@ using System.Drawing.Drawing2D;
 
 namespace Tetris
 {
+    //Created by Nick Peterson and Daric Sage
+    //Features for Possible Extra Credit Include:
+    //Dynamically resizable
+    //Ghost Game Piece
     [Serializable]
     public class GamePlayView
     {
